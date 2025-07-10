@@ -1,0 +1,22 @@
+services:
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: dockerfile
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    # Si en el futuro usas variables de entorno, descomenta la siguiente línea y crea un archivo .env
+    # env_file:
+    #   - ./user-service/.env
+
+  avatar-service:
+    build:
+      context: ./avatar-service
+      dockerfile: dockerfile
+    ports:
+      - "3001:3000"
+    restart: unless-stopped
+    # Si en el futuro usas variables de entorno, descomenta la siguiente línea y crea un archivo .env
+    # env_file:
+    #   - ./avatar-service/.env
