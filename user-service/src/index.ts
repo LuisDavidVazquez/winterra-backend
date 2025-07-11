@@ -1,10 +1,9 @@
-import { log } from 'console';
 import express from 'express';
 
 const app = express();
 const port = 3000;
 
-app.get('/user', (_, res) => {
+app.get('/users', (_, res) => {
   console.log('User Service is running');
   res.json({ message: 'User Service is running' });
 });
