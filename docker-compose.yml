@@ -1,4 +1,21 @@
 services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - user-service
+      - avatar-service
+      - community-service
+      - habits-service
+    restart: unless-stopped
+    networks:
+      - winterra-network
+
   user-service:
     build:
       context: ./user-service
@@ -6,6 +23,10 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
+    networks:
+      - winterra-network
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
     # Si en el futuro usas variables de entorno, descomenta la siguiente línea y crea un archivo .env
     # env_file:
     #   - ./user-service/.env
@@ -17,6 +38,61 @@ services:
     ports:
       - "3001:3000"
     restart: unless-stopped
+    networks:
+      - winterra-network
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
     # Si en el futuro usas variables de entorno, descomenta la siguiente línea y crea un archivo .env
     # env_file:
     #   - ./avatar-service/.env
+
+  community-service:
+    build:
+      context: ./community-service
+      dockerfile: dockerfile
+    ports:
+      - "3002:3000"
+    restart: unless-stopped
+    networks:
+      - winterra-network
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+    # Si en el futuro usas variables de entorno, descomenta la siguiente línea y crea un archivo .env
+    # env_file:
+    #   - ./community-service/.env
+
+  habits-service:
+    build:
+      context: ./habits-service
+      dockerfile: dockerfile
+    ports:
+      - "3003:3000"
+    restart: unless-stopped
+    networks:
+      - winterra-network
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+    # Si en el futuro usas variables de entorno, descomenta la siguiente línea y crea un archivo .env
+    # env_file:
+    #   - ./habits-service/.env
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"   # AMQP protocol
+      - "15672:15672" # Management UI
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    restart: unless-stopped
+    networks:
+      - winterra-network
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+networks:
+  winterra-network:
+    driver: bridge
+
+volumes:
+  rabbitmq_data:
