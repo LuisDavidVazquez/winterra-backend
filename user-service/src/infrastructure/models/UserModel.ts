@@ -12,8 +12,8 @@ export class UserModel {
   @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  password: string;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  firebase_uid: string | null;
 
   @Column({ type: 'int', default: 1 })
   plan_id: number;

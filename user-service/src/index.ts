@@ -2,9 +2,10 @@ import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
 import amqp from 'amqplib';
-import { initializeDatabase } from './config/db/database';
-import { corsOptions } from './config/cors/corsConfig';
+import { initializeDatabase } from '../config/db/database';
+import { corsOptions } from '../config/cors/corsConfig';
 import userRoutes from './infrastructure/http/routes/UserRoutes';
+import friendshipRoutes from './infrastructure/http/routes/FriendshipRoutes';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -15,6 +16,7 @@ app.use(cors(corsOptions));
 
 // Routes
 app.use('/api', userRoutes);
+app.use('/api', friendshipRoutes);
 
 // Health check endpoint
 app.get('/health', (_, res) => {

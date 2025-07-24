@@ -1,10 +1,12 @@
 import { Router } from 'express';
-import { createUserController, getAllUsersController } from '../dependencies/UserDependies';
+import { getAllUsersController, firebaseAuthController } from '../dependencies/UserDependies';
 
 const router = Router();
 
-// Routes
-router.post('/users', (req, res) => createUserController.handle(req, res));
+// Auth Routes
+router.post('/auth/firebase', (req, res) => firebaseAuthController.handle(req, res));
+
+// User Routes
 router.get('/users', (req, res) => getAllUsersController.handle(req, res));
 
 export default router; 

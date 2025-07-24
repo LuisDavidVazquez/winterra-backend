@@ -1,2 +1,3 @@
-winterra-backend.pem
 .env
+.env.example
+User-Service-Postman-Collection.json

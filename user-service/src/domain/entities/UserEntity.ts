@@ -1,6 +1,5 @@
 import { Name } from '../value-objects/Name';
 import { Email } from '../value-objects/Email';
-import { Password } from '../value-objects/Password';
 
 export enum UserPlan {
   NORMAL = 1,
@@ -9,9 +8,9 @@ export enum UserPlan {
 
 export class UserEntity {
   private readonly id: string;
+  private firebaseUid: string | null;
   private name: Name;
   private email: Email;
-  private password: Password;
   private plan: UserPlan;
   private readonly createdAt: Date;
   private lastSessionAt: Date | null;
@@ -20,15 +19,15 @@ export class UserEntity {
     id: string,
     name: Name,
     email: Email,
-    password: Password,
     plan: UserPlan = UserPlan.NORMAL,
+    firebaseUid?: string | null,
     createdAt?: Date,
     lastSessionAt?: Date | null
   ) {
     this.id = id;
+    this.firebaseUid = firebaseUid || null;
     this.name = name;
     this.email = email;
-    this.password = password;
     this.plan = plan;
     this.createdAt = createdAt || new Date();
     this.lastSessionAt = lastSessionAt || null;
@@ -47,10 +46,6 @@ export class UserEntity {
     return this.email;
   }
 
-  getPassword(): Password {
-    return this.password;
-  }
-
   getPlan(): UserPlan {
     return this.plan;
   }
@@ -63,6 +58,10 @@ export class UserEntity {
     return this.lastSessionAt;
   }
 
+  getFirebaseUid(): string | null {
+    return this.firebaseUid;
+  }
+
   // Business methods
   updateName(name: Name): void {
     this.name = name;
@@ -70,10 +69,6 @@ export class UserEntity {
 
   updateEmail(email: Email): void {
     this.email = email;
-  }
-
-  updatePassword(password: Password): void {
-    this.password = password;
   }
 
   upgradeToPro(): void {
@@ -86,6 +81,10 @@ export class UserEntity {
 
   updateLastSession(): void {
     this.lastSessionAt = new Date();
+  }
+
+  setFirebaseUid(firebaseUid: string): void {
+    this.firebaseUid = firebaseUid;
   }
 
   isPro(): boolean {

@@ -1,89 +1,106 @@
 services:
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-    depends_on:
-      - user-service
-      - avatar-service
-      - community-service
-      - habits-service
-    restart: unless-stopped
-    networks:
-      - winterra-network
-
   user-service:
     build:
       context: ./user-service
       dockerfile: dockerfile
     ports:
-      - "3000:3000"
+      - "${USER_SERVICE_PORT:-3000}:3000"
     restart: unless-stopped
     networks:
       - winterra-network
     environment:
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-    # Si en el futuro usas variables de entorno, descomenta la siguiente línea y crea un archivo .env
-    # env_file:
-    #   - ./user-service/.env
+      - NODE_ENV=${USER_SERVICE_NODE_ENV:-development}
+      - PORT=3000
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - DB_HOST=${DB_HOST:-localhost}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USERNAME=${DB_USERNAME:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${USER_DB_DATABASE:-user_service}
+      - JWT_SECRET=${USER_JWT_SECRET}
+      - JWT_EXPIRES_IN=${USER_JWT_EXPIRES_IN}
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
 
   avatar-service:
     build:
       context: ./avatar-service
       dockerfile: dockerfile
     ports:
-      - "3001:3000"
+      - "${AVATAR_SERVICE_PORT:-3001}:3000"
     restart: unless-stopped
     networks:
       - winterra-network
     environment:
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-    # Si en el futuro usas variables de entorno, descomenta la siguiente línea y crea un archivo .env
-    # env_file:
-    #   - ./avatar-service/.env
+      - NODE_ENV=${AVATAR_SERVICE_NODE_ENV:-development}
+      - PORT=3000
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - DB_HOST=${DB_HOST:-localhost}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USERNAME=${DB_USERNAME:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${AVATAR_DB_DATABASE:-avatar_service}
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
 
   community-service:
     build:
       context: ./community-service
       dockerfile: dockerfile
     ports:
-      - "3002:3000"
+      - "${COMMUNITY_SERVICE_PORT:-3002}:3000"
     restart: unless-stopped
     networks:
       - winterra-network
     environment:
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-    # Si en el futuro usas variables de entorno, descomenta la siguiente línea y crea un archivo .env
-    # env_file:
-    #   - ./community-service/.env
+      - NODE_ENV=${COMMUNITY_SERVICE_NODE_ENV:-development}
+      - PORT=3000
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - DB_HOST=${DB_HOST:-localhost}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USERNAME=${DB_USERNAME:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${COMMUNITY_DB_DATABASE:-community_service}
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
 
   habits-service:
     build:
       context: ./habits-service
       dockerfile: dockerfile
     ports:
-      - "3003:3000"
+      - "${HABITS_SERVICE_PORT:-3003}:3000"
     restart: unless-stopped
     networks:
       - winterra-network
     environment:
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-    # Si en el futuro usas variables de entorno, descomenta la siguiente línea y crea un archivo .env
-    # env_file:
-    #   - ./habits-service/.env
+      - NODE_ENV=${HABITS_SERVICE_NODE_ENV:-development}
+      - PORT=3000
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - DB_HOST=${DB_HOST:-localhost}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USERNAME=${DB_USERNAME:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${HABITS_DB_DATABASE:-habits_service}
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
 
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672"   # AMQP protocol
+      - "${RABBITMQ_PORT:-5672}:5672"   # AMQP protocol
       - "15672:15672" # Management UI
     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
     restart: unless-stopped
     networks:
       - winterra-network

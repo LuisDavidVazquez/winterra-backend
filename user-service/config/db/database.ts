@@ -1,17 +1,24 @@
 import { DataSource } from 'typeorm';
-import { UserModel } from '../../infrastructure/models/UserModel';
-import { PlanModel } from '../../infrastructure/models/PlanModel';
+import { UserModel } from '../../src/infrastructure/models/UserModel';
+import { PlanModel } from '../../src/infrastructure/models/PlanModel';
+import { FriendshipModel } from '../../src/infrastructure/models/FriendshipModel';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: process.env.DB_HOST || 'localhost',
+  host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || '5432'),
-  username: process.env.DB_USERNAME || 'user_service',
-  password: process.env.DB_PASSWORD || 'user_service_pass',
-  database: process.env.DB_DATABASE || 'user_service_db',
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   synchronize: false, // Desactivado para usar migraciones
   logging: process.env.NODE_ENV === 'development',
-  entities: [UserModel, PlanModel],
+  ssl: {
+    rejectUnauthorized: false, // <<--- NECESARIO PARA AWS RDS
+  },
+  entities: [UserModel, PlanModel, FriendshipModel],
   migrations: [],
   subscribers: [],
 });

@@ -1,3 +1,4 @@
 /node_modules
 .env
-.example.env
+.env.example
+winterra-8cf29-firebase-adminsdk-fbsvc-009018b663.json
