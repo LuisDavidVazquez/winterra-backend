@@ -1,0 +1,451 @@
+{
+	"info": {
+		"_postman_id": "community-service-collection",
+		"name": "Community Service API",
+		"description": "API collection for Community Service with posts, comments and reactions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post Management",
+			"item": [
+				{
+					"name": "Create Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"content\": \"¡Hola comunidad! Este es mi primer post en Winterra. Espero que les guste.\",\n  \"imageUrl\": \"https://example.com/image.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/posts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/posts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/posts/{{post_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"{{post_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Post - Empty Content",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"content\": \"\",\n  \"imageUrl\": \"https://example.com/image.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/posts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Post - Content Too Long",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"content\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\",\n  \"imageUrl\": \"https://example.com/image.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/posts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Comment Management",
+			"item": [
+				{
+					"name": "Create Comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"postId\": \"{{post_id}}\",\n  \"content\": \"¡Excelente post! Me encantó el contenido.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/comments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comments"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Comment - Invalid Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"postId\": \"invalid-post-id\",\n  \"content\": \"Este comentario debería fallar\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/comments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comments"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Comment - Empty Content",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"postId\": \"{{post_id}}\",\n  \"content\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/comments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comments"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Post Comments",
+			"item": [
+				{
+					"name": "Get Post Comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/posts/{{post_id}}/comments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"{{post_id}}",
+								"comments"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Post Comments - Invalid Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/posts/invalid-post-id/comments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"invalid-post-id",
+								"comments"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Reaction Management",
+			"item": [
+				{
+					"name": "Create Reaction (Like)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"postId\": \"{{post_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reactions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reactions"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Reaction - Invalid Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"postId\": \"invalid-post-id\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reactions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reactions"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Reaction - Duplicate Like",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"postId\": \"{{post_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reactions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reactions"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Post Reactions",
+			"item": [
+				{
+					"name": "Get Post Reactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/posts/{{post_id}}/reactions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"{{post_id}}",
+								"reactions"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Post Reactions - Invalid Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/posts/invalid-post-id/reactions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"invalid-post-id",
+								"reactions"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Reaction Actions",
+			"item": [
+				{
+					"name": "Delete Reaction (Unlike)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"postId\": \"{{post_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reactions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reactions"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Reaction - Not Found",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"postId\": \"{{post_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reactions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reactions"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3002"
+		},
+		{
+			"key": "user_id",
+			"value": "fa21f7c9-d467-4cca-9c25-762f1bd8218e"
+		},
+		{
+			"key": "post_id",
+			"value": "3d47ef74-8faa-49f6-a2d8-c7e9318c26bd"
+		}
+	]
+} 
