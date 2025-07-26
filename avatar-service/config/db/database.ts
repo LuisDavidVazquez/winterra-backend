@@ -1,5 +1,10 @@
 import { DataSource } from 'typeorm';
 import { AvatarModel } from '../../src/infrastructure/models/AvatarModel';
+import { AccessoryModel } from '../../src/infrastructure/models/AccessoryModel';
+import { AvatarAccessoryModel } from '../../src/infrastructure/models/AvatarAccessoryModel';
+import { AchievementModel } from '../../src/infrastructure/models/AchievementModel';
+import { AvatarAchievementModel } from '../../src/infrastructure/models/AvatarAchievementModel';
+import { EncouragementNoteModel } from '../../src/infrastructure/models/EncouragementNoteModel';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -13,7 +18,7 @@ export const AppDataSource = new DataSource({
   ssl: {
     rejectUnauthorized: false,
   },
-  entities: [AvatarModel],
+  entities: [AvatarModel, AccessoryModel, AvatarAccessoryModel, AchievementModel, AvatarAchievementModel, EncouragementNoteModel],
   migrations: [],
   subscribers: [],
 });

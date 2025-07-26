@@ -1,30 +1,11 @@
 {
 	"info": {
-		"_postman_id": "winterra-avatar-service",
-		"name": "Avatar Service - Winterra",
-		"description": "Colección completa de endpoints para el microservicio de Avatar de Winterra. Incluye eventos RabbitMQ para AVATAR_CREATED y AVATAR_UPDATED.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "winterra-avatar-service"
+		"_postman_id": "avatar-service-collection",
+		"name": "Avatar Service API",
+		"description": "API collection for Avatar Service with accessories, achievements and encouragement notes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
-		{
-			"name": "Health Check",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/health",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"health"
-					]
-				},
-				"description": "Verificar el estado del servicio de avatar"
-			},
-			"response": []
-		},
 		{
 			"name": "Avatar Management",
 			"item": [
@@ -40,7 +21,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"experience\": 0,\n  \"level\": 1,\n  \"coins\": 100,\n  \"streakDays\": 0\n}"
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"experience\": 0,\n  \"level\": 1,\n  \"coins\": 100,\n  \"streakDays\": 0\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/avatars",
@@ -51,13 +32,11 @@
 								"api",
 								"avatars"
 							]
-						},
-						"description": "Crear un nuevo avatar para un usuario. Publica evento AVATAR_CREATED en RabbitMQ."
-					},
-					"response": []
+						}
+					}
 				},
 				{
-					"name": "Get Avatar by User ID",
+					"name": "Get Avatar",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -71,10 +50,8 @@
 								"avatars",
 								"{{user_id}}"
 							]
-						},
-						"description": "Obtener el avatar de un usuario específico"
-					},
-					"response": []
+						}
+					}
 				},
 				{
 					"name": "Get All Avatars",
@@ -90,17 +67,9 @@
 								"api",
 								"avatars"
 							]
-						},
-						"description": "Obtener todos los avatares del sistema"
-					},
-					"response": []
-				}
-			],
-			"description": "Endpoints para la gestión básica de avatares"
-		},
-		{
-			"name": "Avatar Actions",
-			"item": [
+						}
+					}
+				},
 				{
 					"name": "Add Experience",
 					"request": {
@@ -113,7 +82,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"amount\": 50\n}"
+							"raw": "{\n  \"experience\": 50\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/avatars/{{user_id}}/experience",
@@ -126,10 +95,8 @@
 								"{{user_id}}",
 								"experience"
 							]
-						},
-						"description": "Agregar experiencia al avatar de un usuario. Publica evento AVATAR_UPDATED en RabbitMQ."
-					},
-					"response": []
+						}
+					}
 				},
 				{
 					"name": "Add Coins",
@@ -143,7 +110,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"amount\": 25\n}"
+							"raw": "{\n  \"coins\": 25\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/avatars/{{user_id}}/coins",
@@ -156,10 +123,8 @@
 								"{{user_id}}",
 								"coins"
 							]
-						},
-						"description": "Agregar monedas al avatar de un usuario. Publica evento AVATAR_UPDATED en RabbitMQ."
-					},
-					"response": []
+						}
+					}
 				},
 				{
 					"name": "Spend Coins",
@@ -173,10 +138,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"amount\": 10\n}"
+							"raw": "{\n  \"coins\": 10\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/api/avatars/{{user_id}}/spend-coins",
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/coins/spend",
 							"host": [
 								"{{base_url}}"
 							],
@@ -184,51 +149,19 @@
 								"api",
 								"avatars",
 								"{{user_id}}",
-								"spend-coins"
+								"coins",
+								"spend"
 							]
-						},
-						"description": "Gastar monedas del avatar de un usuario. Publica evento AVATAR_UPDATED en RabbitMQ."
-					},
-					"response": []
-				},
-				{
-					"name": "Spend Coins - Insufficient Funds",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"amount\": 1000\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/api/avatars/{{user_id}}/spend-coins",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"avatars",
-								"{{user_id}}",
-								"spend-coins"
-							]
-						},
-						"description": "Intentar gastar más monedas de las disponibles (debe fallar)"
-					},
-					"response": []
+						}
+					}
 				}
-			],
-			"description": "Endpoints para acciones específicas del avatar. Todos publican eventos AVATAR_UPDATED en RabbitMQ."
+			]
 		},
 		{
-			"name": "Error Scenarios",
+			"name": "Accessory Management",
 			"item": [
 				{
-					"name": "Create Avatar - Duplicate User",
+					"name": "Create Accessory",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -239,44 +172,63 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"experience\": 0,\n  \"level\": 1,\n  \"coins\": 100,\n  \"streakDays\": 0\n}"
+							"raw": "{\n  \"name\": \"Casco Legendario\",\n  \"type\": 1,\n  \"price\": 500,\n  \"rarity\": 3\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/api/avatars",
+							"raw": "{{base_url}}/api/accessories",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
-								"avatars"
+								"accessories"
 							]
-						},
-						"description": "Intentar crear un avatar para un usuario que ya tiene uno (debe fallar)"
-					},
-					"response": []
+						}
+					}
 				},
 				{
-					"name": "Get Avatar - Not Found",
+					"name": "Get All Accessories",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/avatars/99999999-9999-9999-9999-999999999999",
+							"raw": "{{base_url}}/api/accessories",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"accessories"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "User Accessories",
+			"item": [
+				{
+					"name": "Get User Accessories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/accessories",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
 								"avatars",
-								"99999999-9999-9999-9999-999999999999"
+								"{{user_id}}",
+								"accessories"
 							]
-						},
-						"description": "Intentar obtener un avatar que no existe (debe fallar)"
-					},
-					"response": []
+						}
+					}
 				},
 				{
-					"name": "Add Experience - Invalid User",
+					"name": "Purchase Accessory",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -287,58 +239,387 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"amount\": 50\n}"
+							"raw": "{\n  \"accessoryId\": \"{{accessory_id}}\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/api/avatars/99999999-9999-9999-9999-999999999999/experience",
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/accessories/purchase",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
 								"avatars",
-								"99999999-9999-9999-9999-999999999999",
-								"experience"
+								"{{user_id}}",
+								"accessories",
+								"purchase"
 							]
+						}
+					}
+				},
+				{
+					"name": "Equip Accessory",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accessoryId\": \"{{accessory_id}}\"\n}"
 						},
-						"description": "Intentar agregar experiencia a un avatar que no existe (debe fallar)"
-					},
-					"response": []
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/accessories/equip",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}",
+								"accessories",
+								"equip"
+							]
+						}
+					}
+				},
+				{
+					"name": "Purchase Accessory - Insufficient Coins",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accessoryId\": \"{{expensive_accessory_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/accessories/purchase",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}",
+								"accessories",
+								"purchase"
+							]
+						}
+					}
+				},
+				{
+					"name": "Equip Accessory - Not Owned",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accessoryId\": \"{{not_owned_accessory_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/accessories/equip",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}",
+								"accessories",
+								"equip"
+							]
+						}
+					}
 				}
-			],
-			"description": "Escenarios de error para probar el manejo de excepciones"
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
+			]
 		},
 		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
+			"name": "Achievement Management",
+			"item": [
+				{
+					"name": "Create Achievement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Primer Nivel\",\n  \"description\": \"Alcanza el nivel 1\",\n  \"img\": \"https://example.com/achievement1.png\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/achievements",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"achievements"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Achievements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/achievements",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"achievements"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "User Achievements",
+			"item": [
+				{
+					"name": "Get User Achievements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/achievements",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}",
+								"achievements"
+							]
+						}
+					}
+				},
+				{
+					"name": "Unlock Achievement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"achievementId\": \"{{achievement_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/achievements/unlock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}",
+								"achievements",
+								"unlock"
+							]
+						}
+					}
+				},
+				{
+					"name": "Unlock Achievement - Already Unlocked",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"achievementId\": \"{{already_unlocked_achievement_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/achievements/unlock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}",
+								"achievements",
+								"unlock"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Encouragement Notes Management",
+			"item": [
+				{
+					"name": "Create Encouragement Note",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"avatarId\": \"{{avatar_id}}\",\n  \"content\": \"¡Sigue así! Eres increíble y cada día te superas más. No te rindas, porque el éxito está a la vuelta de la esquina.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/encouragement-notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"encouragement-notes"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Encouragement Notes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/encouragement-notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"encouragement-notes"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Avatar Encouragement Notes",
+			"item": [
+				{
+					"name": "Get Avatar Encouragement Notes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{avatar_id}}/encouragement-notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{avatar_id}}",
+								"encouragement-notes"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Encouragement Note - Invalid Avatar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"avatarId\": \"invalid-avatar-id\",\n  \"content\": \"Esta nota debería fallar\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/encouragement-notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"encouragement-notes"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Encouragement Note - Empty Content",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"avatarId\": \"{{avatar_id}}\",\n  \"content\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/encouragement-notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"encouragement-notes"
+							]
+						}
+					}
+				}
+			]
 		}
 	],
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:3002",
-			"type": "string"
+			"value": "http://localhost:3001"
 		},
 		{
 			"key": "user_id",
-			"value": "123e4567-e89b-12d3-a456-426614174000",
-			"type": "string"
+			"value": "fa21f7c9-d467-4cca-9c25-762f1bd8218e"
+		},
+		{
+			"key": "avatar_id",
+			"value": "3d47ef74-8faa-49f6-a2d8-c7e9318c26bd"
+		},
+		{
+			"key": "accessory_id",
+			"value": "3d47ef74-8faa-49f6-a2d8-c7e9318c26bd"
+		},
+		{
+			"key": "achievement_id",
+			"value": "achievement-uuid-here"
 		}
 	]
 } 

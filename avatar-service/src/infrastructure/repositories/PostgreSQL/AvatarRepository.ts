@@ -4,7 +4,9 @@ import { AvatarModel } from '../../models/AvatarModel';
 import { AppDataSource } from '../../../../config/db/database';
 
 export class PostgreSQLAvatarRepository implements AvatarRepository {
-  private repository = AppDataSource.getRepository(AvatarModel);
+  private get repository() {
+    return AppDataSource.getRepository(AvatarModel);
+  }
 
   async save(avatar: AvatarEntity): Promise<AvatarEntity> {
     const avatarModel = new AvatarModel();
