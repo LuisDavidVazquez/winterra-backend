@@ -131,6 +131,5 @@ services:
 networks:
   winterra-network:
     driver: bridge
-
 volumes:
   rabbitmq_data:
