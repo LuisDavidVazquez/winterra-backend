@@ -116,31 +116,34 @@ export class EmailService implements IEmailService {
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
           }
           .header {
-            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            background: #262648;
             padding: 40px 30px;
             text-align: center;
             position: relative;
           }
           .logo {
-            width: 120px;
+            width: 250px;
             height: auto;
-            margin-bottom: 20px;
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
           }
           .welcome-text {
+            font-family: 'Times New Roman', Times, serif;
+            color:rgb(188, 165, 16);
             font-size: 28px;
             font-weight: bold;
             margin: 0;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
           }
           .subtitle {
+            font-family: 'Times New Roman', Times, serif;
+            color:rgb(188, 165, 16);
             font-size: 16px;
             opacity: 0.9;
             margin: 10px 0 0 0;
           }
           .content {
-            padding: 40px 30px;
+            padding: 30px 20px;
           }
           .greeting {
             font-size: 24px;
@@ -267,7 +270,7 @@ export class EmailService implements IEmailService {
       <body>
         <div class="container">
           <div class="header">
-            <img src="http://assets.winterra.lat/Logo.png" alt="Winterra Logo" class="logo" />
+            <img src="http://assets.winterra.lat/logo.png" alt="Winterra Logo" class="logo" />
             <h1 class="welcome-text">¡Bienvenido a Winterra!</h1>
             <p class="subtitle">Tu aventura comienza ahora</p>
           </div>

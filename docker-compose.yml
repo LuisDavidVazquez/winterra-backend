@@ -17,12 +17,14 @@ services:
       - DB_USERNAME=${DB_USERNAME:-postgres}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${USER_DB_DATABASE:-user_service}
-      - JWT_SECRET=${USER_JWT_SECRET}
-      - JWT_EXPIRES_IN=${USER_JWT_EXPIRES_IN}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
     depends_on:
       - rabbitmq
     env_file:
       - .env
+    volumes:
+      - ./winterra-8cf29-firebase-adminsdk-fbsvc-009018b663.json:/app/winterra-8cf29-firebase-adminsdk-fbsvc-009018b663.json
 
   avatar-service:
     build:
@@ -92,6 +94,25 @@ services:
       - rabbitmq
     env_file:
       - .env
+
+  consumer:
+    build:
+      context: ./consumer
+      dockerfile: dockerfile
+    ports:
+      - "3010:3000"
+    restart: unless-stopped
+    networks:
+      - winterra-network
+    depends_on:
+      - rabbitmq
+      - avatar-service
+    env_file:
+      - .env
+    environment:
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - AVATAR_API_BASE_URL=${AVATAR_API_BASE_URL}
+
 
   rabbitmq:
     image: rabbitmq:3-management

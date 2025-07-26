@@ -7,8 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/src/index.js",
     "build": "tsc",
-    "typeorm": "typeorm-ts-node-commonjs",
-    "test:email": "node test-email.js"
+    "typeorm": "typeorm-ts-node-commonjs"
   },
   "author": "",
   "license": "ISC",

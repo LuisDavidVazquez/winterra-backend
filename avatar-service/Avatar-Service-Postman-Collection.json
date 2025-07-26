@@ -1,0 +1,344 @@
+{
+	"info": {
+		"_postman_id": "winterra-avatar-service",
+		"name": "Avatar Service - Winterra",
+		"description": "Colección completa de endpoints para el microservicio de Avatar de Winterra. Incluye eventos RabbitMQ para AVATAR_CREATED y AVATAR_UPDATED.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "winterra-avatar-service"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				},
+				"description": "Verificar el estado del servicio de avatar"
+			},
+			"response": []
+		},
+		{
+			"name": "Avatar Management",
+			"item": [
+				{
+					"name": "Create Avatar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"experience\": 0,\n  \"level\": 1,\n  \"coins\": 100,\n  \"streakDays\": 0\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars"
+							]
+						},
+						"description": "Crear un nuevo avatar para un usuario. Publica evento AVATAR_CREATED en RabbitMQ."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Avatar by User ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}"
+							]
+						},
+						"description": "Obtener el avatar de un usuario específico"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Avatars",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/avatars",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars"
+							]
+						},
+						"description": "Obtener todos los avatares del sistema"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para la gestión básica de avatares"
+		},
+		{
+			"name": "Avatar Actions",
+			"item": [
+				{
+					"name": "Add Experience",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 50\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/experience",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}",
+								"experience"
+							]
+						},
+						"description": "Agregar experiencia al avatar de un usuario. Publica evento AVATAR_UPDATED en RabbitMQ."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Coins",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 25\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/coins",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}",
+								"coins"
+							]
+						},
+						"description": "Agregar monedas al avatar de un usuario. Publica evento AVATAR_UPDATED en RabbitMQ."
+					},
+					"response": []
+				},
+				{
+					"name": "Spend Coins",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 10\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/spend-coins",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}",
+								"spend-coins"
+							]
+						},
+						"description": "Gastar monedas del avatar de un usuario. Publica evento AVATAR_UPDATED en RabbitMQ."
+					},
+					"response": []
+				},
+				{
+					"name": "Spend Coins - Insufficient Funds",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 1000\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/spend-coins",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}",
+								"spend-coins"
+							]
+						},
+						"description": "Intentar gastar más monedas de las disponibles (debe fallar)"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para acciones específicas del avatar. Todos publican eventos AVATAR_UPDATED en RabbitMQ."
+		},
+		{
+			"name": "Error Scenarios",
+			"item": [
+				{
+					"name": "Create Avatar - Duplicate User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"experience\": 0,\n  \"level\": 1,\n  \"coins\": 100,\n  \"streakDays\": 0\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars"
+							]
+						},
+						"description": "Intentar crear un avatar para un usuario que ya tiene uno (debe fallar)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Avatar - Not Found",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/avatars/99999999-9999-9999-9999-999999999999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"99999999-9999-9999-9999-999999999999"
+							]
+						},
+						"description": "Intentar obtener un avatar que no existe (debe fallar)"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Experience - Invalid User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 50\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars/99999999-9999-9999-9999-999999999999/experience",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"99999999-9999-9999-9999-999999999999",
+								"experience"
+							]
+						},
+						"description": "Intentar agregar experiencia a un avatar que no existe (debe fallar)"
+					},
+					"response": []
+				}
+			],
+			"description": "Escenarios de error para probar el manejo de excepciones"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3002",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "123e4567-e89b-12d3-a456-426614174000",
+			"type": "string"
+		}
+	]
+} 
