@@ -4,6 +4,8 @@ import { FirebaseAuthRequestDTO, FirebaseAuthResponseDTO } from '../dtos/Firebas
 import { IFirebaseService } from '../services/IFirebaseService';
 import { IJWTService } from '../services/IJWTService';
 import { IUUIDService } from '../services/IUUIDService';
+import { IEmailService } from '../services/IEmailService';
+import { UserEventService } from '../../infrastructure/events/UserEventService';
 import { Name } from '../../domain/value-objects/Name';
 import { Email } from '../../domain/value-objects/Email';
 
@@ -12,7 +14,9 @@ export class FirebaseAuthUseCase {
     private userRepository: UserRepository,
     private firebaseService: IFirebaseService,
     private jwtService: IJWTService,
-    private uuidService: IUUIDService
+    private uuidService: IUUIDService,
+    private emailService: IEmailService,
+    private userEventService: UserEventService
   ) {}
 
   async execute(authData: FirebaseAuthRequestDTO): Promise<FirebaseAuthResponseDTO> {
@@ -21,6 +25,7 @@ export class FirebaseAuthUseCase {
 
     // Buscar usuario por Firebase UID
     let user = await this.userRepository.findByFirebaseUid(firebaseUser.uid);
+    let isNewUser = false;
 
     if (!user) {
       // Buscar por email como fallback
@@ -33,6 +38,7 @@ export class FirebaseAuthUseCase {
         await this.userRepository.update(user);
       } else {
         // Crear nuevo usuario
+        isNewUser = true;
         const name = new Name(authData.userData?.name || firebaseUser.displayName || 'User');
         const emailObj = new Email(firebaseUser.email);
         const plan = authData.userData?.plan === UserPlan.PRO ? UserPlan.PRO : UserPlan.NORMAL;
@@ -50,6 +56,37 @@ export class FirebaseAuthUseCase {
         console.log('UserEntity created with firebase_uid:', user.getFirebaseUid());
 
         user = await this.userRepository.save(user);
+        
+        // Enviar correo de bienvenida para nuevos usuarios
+        try {
+          await this.emailService.sendWelcomeEmail({
+            id: user.getId(),
+            name: user.getName().getValue(),
+            email: user.getEmail().getValue(),
+            plan: user.getPlan(),
+            joinDate: user.getCreatedAt()
+          });
+          console.log('Correo de bienvenida enviado exitosamente');
+        } catch (error) {
+          console.error('Error enviando correo de bienvenida:', error);
+          // No fallar la autenticación si el correo falla
+        }
+
+        // Publicar evento de usuario creado
+        try {
+          await this.userEventService.publishUserCreatedEvent({
+            id: user.getId(),
+            firebaseUid: user.getFirebaseUid() || '',
+            name: user.getName().getValue(),
+            email: user.getEmail().getValue(),
+            plan: user.getPlan(),
+            createdAt: user.getCreatedAt()
+          });
+          console.log('Evento de usuario creado publicado exitosamente');
+        } catch (error) {
+          console.error('Error publicando evento de usuario creado:', error);
+          // No fallar la autenticación si el evento falla
+        }
       }
     }
 
@@ -81,7 +118,8 @@ export class FirebaseAuthUseCase {
           lastSessionAt: user.getLastSessionAt()?.toISOString() || null
         },
         token,
-        expiresIn: process.env.JWT_EXPIRES_IN || '24h'
+        expiresIn: process.env.JWT_EXPIRES_IN || '24h',
+        isNew: isNewUser
       },
       message: 'Firebase authentication successful'
     };

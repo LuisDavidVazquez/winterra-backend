@@ -7,6 +7,7 @@ import { UUIDService } from '../../services/UUIDService';
 import { JWTService } from '../../services/JWTService';
 import { UserEventService } from '../../events/UserEventService';
 import { FirebaseService } from '../../services/FirebaseService';
+import { EmailService } from '../../services/EmailService';
 
 // Repositories
 export const userRepository = new PostgreSQLUserRepository();
@@ -15,9 +16,11 @@ export const userRepository = new PostgreSQLUserRepository();
 export const uuidService = new UUIDService();
 export const jwtService = new JWTService();
 export const firebaseService = new FirebaseService();
+export const emailService = new EmailService();
+export const userEventService = new UserEventService();
 
 // Event Services
-export const userEventService = new UserEventService();
+// export const userEventService = new UserEventService();
 
 // Use Cases
 export const getAllUsersUseCase = new GetAllUsersUseCase(userRepository);
@@ -26,7 +29,9 @@ export const firebaseAuthUseCase = new FirebaseAuthUseCase(
   userRepository,
   firebaseService,
   jwtService,
-  uuidService
+  uuidService,
+  emailService,
+  userEventService
 );
 
 // Controllers

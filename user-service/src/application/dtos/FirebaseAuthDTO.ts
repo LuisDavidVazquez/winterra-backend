@@ -35,6 +35,7 @@ export interface FirebaseAuthResponseDTO {
     };
     token: string; // JWT token del backend
     expiresIn: string;
+    isNew: boolean; // Indica si es un usuario nuevo
   };
   message: string;
 } 

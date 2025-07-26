@@ -2,9 +2,7 @@ import { DataSource } from 'typeorm';
 import { UserModel } from '../../src/infrastructure/models/UserModel';
 import { PlanModel } from '../../src/infrastructure/models/PlanModel';
 import { FriendshipModel } from '../../src/infrastructure/models/FriendshipModel';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { NotificationModel } from '../../src/infrastructure/models/NotificationModel';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -13,12 +11,12 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  synchronize: false, // Desactivado para usar migraciones
+  synchronize: false,
   logging: process.env.NODE_ENV === 'development',
   ssl: {
-    rejectUnauthorized: false, // <<--- NECESARIO PARA AWS RDS
+    rejectUnauthorized: false,
   },
-  entities: [UserModel, PlanModel, FriendshipModel],
+  entities: [UserModel, PlanModel, FriendshipModel, NotificationModel],
   migrations: [],
   subscribers: [],
 });
@@ -31,4 +29,4 @@ export const initializeDatabase = async (): Promise<void> => {
     console.error('Error connecting to database:', error);
     throw error;
   }
-}; 
+};

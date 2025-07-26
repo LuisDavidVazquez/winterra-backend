@@ -1,11 +1,12 @@
 import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
-import amqp from 'amqplib';
 import { initializeDatabase } from '../config/db/database';
 import { corsOptions } from '../config/cors/corsConfig';
 import userRoutes from './infrastructure/http/routes/UserRoutes';
 import friendshipRoutes from './infrastructure/http/routes/FriendshipRoutes';
+import notificationRoutes from './infrastructure/http/routes/NotificationRoutes';
+import { RabbitMQConnection } from '../config/rabbitmq/connection';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ app.use(cors(corsOptions));
 // Routes
 app.use('/api', userRoutes);
 app.use('/api', friendshipRoutes);
+app.use('/api', notificationRoutes);
 
 // Health check endpoint
 app.get('/health', (_, res) => {
@@ -30,24 +32,10 @@ app.get('/health', (_, res) => {
 // RabbitMQ connection and event handling
 async function setupRabbitMQ() {
   try {
-    const connection = await amqp.connect(process.env.RABBITMQ_URL || 'amqp://guest:guest@rabbitmq:5672');
-    const channel = await connection.createChannel();
-    
-    // Declare exchange for user events
-    await channel.assertExchange('user_events', 'topic', { durable: true });
-    
+    const rabbitMQ = RabbitMQConnection.getInstance();
+    await rabbitMQ.connect();
     console.log('RabbitMQ connected successfully');
-    
-    // Handle connection errors
-    connection.on('error', (error) => {
-      console.error('RabbitMQ connection error:', error);
-    });
-    
-    connection.on('close', () => {
-      console.log('RabbitMQ connection closed');
-    });
-    
-    return { connection, channel };
+    return rabbitMQ;
   } catch (error) {
     console.error('Failed to connect to RabbitMQ:', error);
     return null;
@@ -66,7 +54,6 @@ async function initializeApp() {
     
     // Initialize UserEventService from dependencies
     const { userEventService } = await import('./infrastructure/http/dependencies/UserDependies');
-    await userEventService.initialize();
     console.log('UserEventService initialized successfully');
     
     // Start server

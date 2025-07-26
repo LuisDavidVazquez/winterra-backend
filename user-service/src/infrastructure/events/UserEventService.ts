@@ -1,79 +1,77 @@
-import * as amqp from 'amqplib';
-import { UserEntity } from '../../domain/entities/UserEntity';
-
-export interface UserCreatedEvent {
-  type: 'USER_CREATED';
-  data: {
-    userId: string;
-    email: string;
-    name: string;
-    plan: number;
-    createdAt: string;
-  };
-  timestamp: string;
-}
+import { RabbitMQConnection } from '../../../config/rabbitmq/connection';
+import { UserCreatedEventDTO } from '../../application/dtos/UserEventDTO';
 
 export class UserEventService {
-  private connection: any = null;
-  private channel: any = null;
+  private rabbitMQ: RabbitMQConnection;
 
-  async initialize(): Promise<void> {
-    try {
-      this.connection = await amqp.connect(process.env.RABBITMQ_URL || 'amqp://guest:guest@rabbitmq:5672');
-      this.channel = await this.connection.createChannel();
-      
-      // Declare exchange for user events
-      await this.channel.assertExchange('user_events', 'topic', { durable: true });
-      
-      console.log('UserEventService initialized successfully');
-    } catch (error) {
-      console.error('Failed to initialize UserEventService:', error);
-      throw error;
-    }
+  constructor() {
+    this.rabbitMQ = RabbitMQConnection.getInstance();
   }
 
-  async publishUserCreated(user: UserEntity): Promise<void> {
-    if (!this.channel) {
-      throw new Error('UserEventService not initialized');
-    }
-
-    const event: UserCreatedEvent = {
-      type: 'USER_CREATED',
-      data: {
-        userId: user.getId(),
-        email: user.getEmail().getValue(),
-        name: user.getName().getValue(),
-        plan: user.getPlan(),
-        createdAt: user.getCreatedAt().toISOString()
-      },
-      timestamp: new Date().toISOString()
-    };
-
+  async publishUserCreatedEvent(userData: {
+    id: string;
+    firebaseUid: string;
+    name: string;
+    email: string;
+    plan: number;
+    createdAt: Date;
+  }): Promise<boolean> {
     try {
-      await this.channel.publish(
-        'user_events',
+      const event: UserCreatedEventDTO = {
+        eventType: 'USER_CREATED',
+        userId: userData.id,
+        firebaseUid: userData.firebaseUid,
+        name: userData.name,
+        email: userData.email,
+        plan: userData.plan,
+        createdAt: userData.createdAt.toISOString(),
+        timestamp: Date.now()
+      };
+
+      const success = await this.rabbitMQ.publishMessage(
+        'user.events',
         'user.created',
-        Buffer.from(JSON.stringify(event)),
-        { persistent: true }
+        event
       );
-      
-      console.log('User created event published:', event.data.userId);
+
+      if (success) {
+        console.log('📤 Evento USER_CREATED publicado exitosamente');
+      } else {
+        console.error('❌ Error publicando evento USER_CREATED');
+      }
+
+      return success;
     } catch (error) {
-      console.error('Failed to publish user created event:', error);
-      throw error;
+      console.error('❌ Error en UserEventService.publishUserCreatedEvent:', error);
+      return false;
     }
   }
 
-  async close(): Promise<void> {
+  async publishUserEvent(eventType: string, userId: string, data: any): Promise<boolean> {
     try {
-      if (this.channel) {
-        await this.channel.close();
+      const event = {
+        eventType,
+        userId,
+        data,
+        timestamp: Date.now()
+      };
+
+      const success = await this.rabbitMQ.publishMessage(
+        'user.events',
+        `user.${eventType.toLowerCase()}`,
+        event
+      );
+
+      if (success) {
+        console.log(`📤 Evento ${eventType} publicado exitosamente`);
+      } else {
+        console.error(`❌ Error publicando evento ${eventType}`);
       }
-      if (this.connection) {
-        await this.connection.close();
-      }
+
+      return success;
     } catch (error) {
-      console.error('Error closing RabbitMQ connections:', error);
+      console.error(`❌ Error en UserEventService.publishUserEvent (${eventType}):`, error);
+      return false;
     }
   }
 } 

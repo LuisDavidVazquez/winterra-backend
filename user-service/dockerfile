@@ -10,7 +10,7 @@ COPY . .
 RUN npm run build
 
 # Asegurar que el archivo de credenciales esté en el directorio dist
-RUN cp winterra-8cf29-firebase-adminsdk-fbsvc-009018b663.json dist/ || true
+RUN cp ../winterra-8cf29-firebase-adminsdk-fbsvc-009018b663.json dist/ || true
 
 EXPOSE 3000
 CMD ["npm", "start"]
