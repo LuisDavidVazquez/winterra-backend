@@ -17,8 +17,8 @@ export function createAchievementRoutes(
   router.get('/achievements', (req, res) => getAllAchievementsController.handle(req, res));
 
   // User achievement routes
-  router.get('/avatars/:userId/achievements', (req, res) => getUserAchievementsController.handle(req, res));
-  router.post('/avatars/:userId/achievements/unlock', (req, res) => unlockAchievementController.handle(req, res));
+  router.get('/:userId/achievements', (req, res) => getUserAchievementsController.handle(req, res));
+  router.post('/:userId/achievements/unlock', (req, res) => unlockAchievementController.handle(req, res));
 
   return router;
 } 

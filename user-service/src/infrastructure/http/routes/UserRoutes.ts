@@ -7,6 +7,6 @@ const router = Router();
 router.post('/auth/firebase', (req, res) => firebaseAuthController.handle(req, res));
 
 // User Routes
-router.get('/users', (req, res) => getAllUsersController.handle(req, res));
+router.get('/', (req, res) => getAllUsersController.handle(req, res));
 
 export default router; 

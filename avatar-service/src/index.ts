@@ -34,7 +34,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 // Routes
-app.use('/api', avatarRoutes);
+app.use('/api/avatars', avatarRoutes);
 
 // Health check endpoint
 app.get('/health', (_, res) => {

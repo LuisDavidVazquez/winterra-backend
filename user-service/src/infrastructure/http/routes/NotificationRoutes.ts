@@ -14,7 +14,7 @@ router.post('/notifications', async (req, res) => {
 });
 
 // Obtener notificaciones de un usuario
-router.get('/users/:userId/notifications', async (req, res) => {
+router.get('/:userId/notifications', async (req, res) => {
   const controller = new GetNotificationsController(req.app.locals.getNotificationsUseCase);
   await controller.handle(req, res);
 });

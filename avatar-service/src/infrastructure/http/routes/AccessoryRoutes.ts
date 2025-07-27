@@ -19,9 +19,9 @@ export function createAccessoryRoutes(
   router.get('/accessories', (req, res) => getAllAccessoriesController.handle(req, res));
 
   // User accessory routes
-  router.get('/avatars/:userId/accessories', (req, res) => getUserAccessoriesController.handle(req, res));
-  router.post('/avatars/:userId/accessories/purchase', (req, res) => purchaseAccessoryController.handle(req, res));
-  router.post('/avatars/:userId/accessories/equip', (req, res) => equipAccessoryController.handle(req, res));
+  router.get('/:userId/accessories', (req, res) => getUserAccessoriesController.handle(req, res));
+  router.post('/:userId/accessories/purchase', (req, res) => purchaseAccessoryController.handle(req, res));
+  router.post('/:userId/accessories/equip', (req, res) => equipAccessoryController.handle(req, res));
 
   return router;
 } 
