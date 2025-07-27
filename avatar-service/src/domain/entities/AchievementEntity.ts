@@ -4,6 +4,8 @@ export class AchievementEntity {
     private readonly name: string,
     private readonly description: string,
     private readonly img: string | null,
+    private readonly typeId: number,
+    private readonly condition: number,
     private readonly createdAt: Date
   ) {}
 
@@ -21,6 +23,14 @@ export class AchievementEntity {
 
   getImg(): string | null {
     return this.img;
+  }
+
+  getTypeId(): number {
+    return this.typeId;
+  }
+
+  getCondition(): number {
+    return this.condition;
   }
 
   getCreatedAt(): Date {

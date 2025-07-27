@@ -15,6 +15,8 @@ export class PostgreSQLAchievementRepository implements IAchievementRepository {
     model.name = achievement.getName();
     model.description = achievement.getDescription();
     model.img = achievement.getImg();
+    model.typeId = achievement.getTypeId();
+    model.condition = achievement.getCondition();
     model.createdAt = achievement.getCreatedAt();
 
     const savedModel = await this.repository.save(model);
@@ -24,6 +26,8 @@ export class PostgreSQLAchievementRepository implements IAchievementRepository {
       savedModel.name,
       savedModel.description,
       savedModel.img,
+      savedModel.typeId,
+      savedModel.condition,
       savedModel.createdAt
     );
   }
@@ -40,6 +44,8 @@ export class PostgreSQLAchievementRepository implements IAchievementRepository {
       model.name,
       model.description,
       model.img,
+      model.typeId,
+      model.condition,
       model.createdAt
     );
   }
@@ -52,6 +58,8 @@ export class PostgreSQLAchievementRepository implements IAchievementRepository {
       model.name,
       model.description,
       model.img,
+      model.typeId,
+      model.condition,
       model.createdAt
     ));
   }
@@ -66,6 +74,8 @@ export class PostgreSQLAchievementRepository implements IAchievementRepository {
     model.name = achievement.getName();
     model.description = achievement.getDescription();
     model.img = achievement.getImg();
+    model.typeId = achievement.getTypeId();
+    model.condition = achievement.getCondition();
 
     const updatedModel = await this.repository.save(model);
 
@@ -74,6 +84,8 @@ export class PostgreSQLAchievementRepository implements IAchievementRepository {
       updatedModel.name,
       updatedModel.description,
       updatedModel.img,
+      updatedModel.typeId,
+      updatedModel.condition,
       updatedModel.createdAt
     );
   }

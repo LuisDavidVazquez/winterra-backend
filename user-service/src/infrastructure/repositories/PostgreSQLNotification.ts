@@ -3,9 +3,12 @@ import { NotificationEntity } from '../../domain/entities/NotificationEntity';
 import { INotificationRepository } from '../../domain/repositories/INotificationRepository';
 import { NotificationModel } from '../models/NotificationModel';
 import { NotificationTypeValue } from '../../domain/value-objects/NotificationType';
+import { AppDataSource } from '../../../config/db/database';
 
 export class PostgreSQLNotificationRepository implements INotificationRepository {
-  constructor(private repository: Repository<NotificationModel>) {}
+  private get repository(): Repository<NotificationModel> {
+    return AppDataSource.getRepository(NotificationModel);
+  }
 
   async save(notification: NotificationEntity): Promise<NotificationEntity> {
     const notificationModel = new NotificationModel();

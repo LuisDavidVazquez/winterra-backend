@@ -4,27 +4,10 @@ import cors from 'cors';
 import { initializeDatabase } from '../config/db/database';
 import { corsOptions } from '../config/cors/corsConfig';
 import avatarRoutes from './infrastructure/http/routes/AvatarRoutes';
-import { createAccessoryRoutes } from './infrastructure/http/routes/AccessoryRoutes';
-import { createAchievementRoutes } from './infrastructure/http/routes/AchievementRoutes';
-import { createEncouragementNoteRoutes } from './infrastructure/http/routes/EncouragementNoteRoutes';
+import accessoryRoutes from './infrastructure/http/routes/AccessoryRoutes';
+import achievementRoutes from './infrastructure/http/routes/AchievementRoutes';
+import encouragementNoteRoutes from './infrastructure/http/routes/EncouragementNoteRoutes';
 import { RabbitMQConnection } from '../config/rabbitmq/connection';
-import {
-  createAvatarController,
-  getAvatarController,
-  getAllAvatarsController,
-  addExperienceController,
-  addCoinsController,
-  spendCoinsController,
-  createAccessoryController,
-  getAllAccessoriesController,
-  purchaseAccessoryController,
-  equipAccessoryController,
-  getUserAccessoriesController,
-  createAchievementController,
-  getAllAchievementsController,
-  unlockAchievementController,
-  getUserAchievementsController
-} from './infrastructure/http/dependencies/AvatarDependencies';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -33,7 +16,10 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors(corsOptions));
 
-// Routes
+// Routes - Specific routes first, then parameterized routes
+app.use('/api/avatars', accessoryRoutes);
+app.use('/api/avatars', achievementRoutes);
+app.use('/api/avatars', encouragementNoteRoutes);
 app.use('/api/avatars', avatarRoutes);
 
 // Health check endpoint
@@ -72,65 +58,14 @@ async function initializeApp() {
     const { avatarEventService } = await import('./infrastructure/http/dependencies/AvatarDependencies');
     console.log('AvatarEventService initialized successfully');
     
-    // Setup accessory routes
-    const { 
-      createAccessoryController,
-      getAllAccessoriesController,
-      purchaseAccessoryController,
-      equipAccessoryController,
-      getUserAccessoriesController
-    } = await import('./infrastructure/http/dependencies/AvatarDependencies');
-
-    const accessoryRoutes = createAccessoryRoutes(
-      createAccessoryController,
-      getAllAccessoriesController,
-      purchaseAccessoryController,
-      equipAccessoryController,
-      getUserAccessoriesController
-    );
-
-    app.use('/api', accessoryRoutes);
-
-    // Setup achievement routes
-    const {
-      createAchievementController,
-      getAllAchievementsController,
-      unlockAchievementController,
-      getUserAchievementsController
-    } = await import('./infrastructure/http/dependencies/AvatarDependencies');
-
-    const achievementRoutes = createAchievementRoutes(
-      createAchievementController,
-      getAllAchievementsController,
-      unlockAchievementController,
-      getUserAchievementsController
-    );
-
-    app.use('/api', achievementRoutes);
-
-    // Setup encouragement note routes
-    const {
-      createEncouragementNoteController,
-      getAvatarEncouragementNotesController,
-      getAllEncouragementNotesController
-    } = await import('./infrastructure/http/dependencies/AvatarDependencies');
-
-    const encouragementNoteRoutes = createEncouragementNoteRoutes(
-      createEncouragementNoteController,
-      getAvatarEncouragementNotesController,
-      getAllEncouragementNotesController
-    );
-
-    app.use('/api', encouragementNoteRoutes);
-    
     // Start server
     app.listen(port, () => {
       console.log(`Avatar Service listening at http://localhost:${port}`);
       console.log(`Health check available at http://localhost:${port}/health`);
       console.log(`🎮 Avatar endpoints: http://localhost:${port}/api/avatars`);
-      console.log(`🎨 Accessory endpoints: http://localhost:${port}/api/accessories`);
-      console.log(`🏆 Achievement endpoints: http://localhost:${port}/api/achievements`);
-      console.log(`💌 Encouragement note endpoints: http://localhost:${port}/api/encouragement-notes`);
+      console.log(`🎨 Accessory endpoints: http://localhost:${port}/api/avatars/accessories`);
+      console.log(`🏆 Achievement endpoints: http://localhost:${port}/api/avatars/achievements`);
+      console.log(`💌 Encouragement note endpoints: http://localhost:${port}/api/avatars/encouragement-notes`);
     });
   } catch (error) {
     console.error('Failed to initialize application:', error);

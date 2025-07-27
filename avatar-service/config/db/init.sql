@@ -45,6 +45,8 @@ CREATE TABLE IF NOT EXISTS achievements (
     name VARCHAR(255) NOT NULL,
     description VARCHAR(500) NOT NULL,
     img VARCHAR(500), -- URL de la imagen (puede ser NULL)
+    type_id INTEGER NOT NULL,
+    condition INTEGER NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -122,6 +124,8 @@ COMMENT ON TABLE achievements IS 'Tabla de logros disponibles';
 COMMENT ON COLUMN achievements.name IS 'Nombre del logro';
 COMMENT ON COLUMN achievements.description IS 'Descripción del logro';
 COMMENT ON COLUMN achievements.img IS 'URL de la imagen del logro (opcional)';
+COMMENT ON COLUMN achievements.type_id IS 'ID del tipo de logro (1, 2, 3, ...)';
+COMMENT ON COLUMN achievements.condition IS 'Condición numérica para desbloquear el logro';
 
 COMMENT ON TABLE avatar_achievements IS 'Relación entre avatares y logros desbloqueados';
 COMMENT ON COLUMN avatar_achievements.unlocked_at IS 'Fecha y hora cuando se desbloqueó el logro';

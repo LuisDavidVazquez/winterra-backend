@@ -71,7 +71,7 @@
 					}
 				},
 				{
-					"name": "Add Experience",
+					"name": "Add Experience (Level Up Test)",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -82,7 +82,35 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"experience\": 50\n}"
+							"raw": "{\n  \"amount\": 150\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avatars/{{user_id}}/experience",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avatars",
+								"{{user_id}}",
+								"experience"
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Experience (Normal)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 50\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/avatars/{{user_id}}/experience",
@@ -360,7 +388,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Primer Nivel\",\n  \"description\": \"Alcanza el nivel 1\",\n  \"img\": \"https://example.com/achievement1.png\"\n}"
+							"raw": "{\n  \"name\": \"Primer Nivel\",\n  \"description\": \"Alcanza el nivel 1\",\n  \"img\": \"https://example.com/achievement1.png\",\n  \"typeId\": 1,\n  \"condition\": 1\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/achievements",

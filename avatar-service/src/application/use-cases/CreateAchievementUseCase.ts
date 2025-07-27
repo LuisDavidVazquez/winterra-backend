@@ -20,6 +20,14 @@ export class CreateAchievementUseCase {
         throw new Error('Achievement description is required');
       }
 
+      if (request.typeId === undefined || request.typeId < 1) {
+        throw new Error('Achievement type_id is required and must be greater than 0');
+      }
+
+      if (request.condition === undefined || request.condition < 0) {
+        throw new Error('Achievement condition is required and must be non-negative');
+      }
+
       // Validate image URL if provided
       if (request.img && request.img.trim().length > 0) {
         try {
@@ -38,6 +46,8 @@ export class CreateAchievementUseCase {
         request.name.trim(),
         request.description.trim(),
         request.img?.trim() || null,
+        request.typeId,
+        request.condition,
         new Date()
       );
 
@@ -52,6 +62,8 @@ export class CreateAchievementUseCase {
           name: savedAchievement.getName(),
           description: savedAchievement.getDescription(),
           img: savedAchievement.getImg(),
+          typeId: savedAchievement.getTypeId(),
+          condition: savedAchievement.getCondition(),
           createdAt: savedAchievement.getCreatedAt().toISOString()
         },
         message: 'Achievement created successfully'

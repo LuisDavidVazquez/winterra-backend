@@ -15,6 +15,8 @@ export class GetAllAchievementsUseCase {
           name: achievement.getName(),
           description: achievement.getDescription(),
           img: achievement.getImg(),
+          typeId: achievement.getTypeId(),
+          condition: achievement.getCondition(),
           createdAt: achievement.getCreatedAt().toISOString()
         })),
         message: 'Achievements retrieved successfully'

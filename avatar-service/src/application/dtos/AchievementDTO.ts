@@ -3,12 +3,16 @@ export interface CreateAchievementRequestDTO {
   name: string;
   description: string;
   img?: string;
+  typeId: number;
+  condition: number;
 }
 
 export interface UpdateAchievementRequestDTO {
   name?: string;
   description?: string;
   img?: string;
+  typeId?: number;
+  condition?: number;
 }
 
 // Response DTOs
@@ -17,6 +21,8 @@ export interface AchievementResponseDTO {
   name: string;
   description: string;
   img: string | null;
+  typeId: number;
+  condition: number;
   createdAt: string;
 }
 

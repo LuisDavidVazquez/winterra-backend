@@ -29,6 +29,10 @@ export class Experience {
     return new Experience(this.value + amount);
   }
 
+  reset(): Experience {
+    return new Experience(0);
+  }
+
   equals(other: Experience): boolean {
     return this.value === other.value;
   }

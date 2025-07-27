@@ -88,8 +88,29 @@ export class AvatarEntity {
 
   private checkLevelUp(): void {
     const experienceForNextLevel = this.level.calculateExperienceRequired();
+    
+    // Check if avatar can level up
     if (this.experience.getValue() >= experienceForNextLevel) {
+      // Calculate how many levels to gain
+      const excessExperience = this.experience.getValue() - experienceForNextLevel;
+      const levelsToGain = Math.floor(excessExperience / experienceForNextLevel) + 1;
+      
+      // Level up
       this.level = this.level.increment();
+      
+      // If there are multiple levels to gain, continue leveling up
+      for (let i = 1; i < levelsToGain; i++) {
+        const nextLevelExperienceRequired = this.level.calculateExperienceRequired();
+        if (excessExperience >= nextLevelExperienceRequired) {
+          this.level = this.level.increment();
+        } else {
+          break;
+        }
+      }
+      
+      // Reset experience to 0 after leveling up
+      this.experience = this.experience.reset();
+      
       // Could add domain events here for level up notifications
     }
   }

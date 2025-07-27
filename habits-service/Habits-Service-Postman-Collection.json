@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "habits-service-collection",
+		"name": "Habits Service API",
+		"description": "API collection for Habits Service with habit types, categories, and user habits",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Habit Types",
+			"item": [
+				{
+					"name": "Create Habit Type",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Ejercicio\",\n  \"description\": \"Actividades físicas y deportivas\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/habits/habit-types",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"habit-types"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Habit Types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/habits/habit-types",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"habit-types"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "User Habits",
+			"item": [
+				{
+					"name": "Create User Habit (System)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"habitId\": \"{{habit_id}}\",\n  \"routineDays\": \"1010100\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/habits/{{user_id}}/habits",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"{{user_id}}",
+								"habits"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create User Habit (Custom)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customName\": \"Leer 30 minutos\",\n  \"customDescription\": \"Leer un libro por 30 minutos antes de dormir\",\n  \"routineDays\": \"1111100\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/habits/{{user_id}}/habits",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"{{user_id}}",
+								"habits"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User Habits",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/habits/{{user_id}}/habits",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"{{user_id}}",
+								"habits"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3003"
+		},
+		{
+			"key": "user_id",
+			"value": "your-user-id-here"
+		},
+		{
+			"key": "habit_id",
+			"value": "your-habit-id-here"
+		}
+	]
+} 

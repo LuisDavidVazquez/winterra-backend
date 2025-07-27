@@ -1,24 +1,19 @@
 import { Router } from 'express';
-import { CreateAchievementController } from '../controllers/CreateAchievementController';
-import { GetAllAchievementsController } from '../controllers/GetAllAchievementsController';
-import { UnlockAchievementController } from '../controllers/UnlockAchievementController';
-import { GetUserAchievementsController } from '../controllers/GetUserAchievementsController';
+import {
+  createAchievementController,
+  getAllAchievementsController,
+  unlockAchievementController,
+  getUserAchievementsController
+} from '../dependencies/AvatarDependencies';
 
-export function createAchievementRoutes(
-  createAchievementController: CreateAchievementController,
-  getAllAchievementsController: GetAllAchievementsController,
-  unlockAchievementController: UnlockAchievementController,
-  getUserAchievementsController: GetUserAchievementsController
-): Router {
-  const router = Router();
+const router = Router();
 
-  // Achievement management routes
-  router.post('/achievements', (req, res) => createAchievementController.handle(req, res));
-  router.get('/achievements', (req, res) => getAllAchievementsController.handle(req, res));
+// Achievement management routes (MUST come before parameterized routes)
+router.post('/achievements', (req, res) => createAchievementController.handle(req, res));
+router.get('/achievements', (req, res) => getAllAchievementsController.handle(req, res));
 
-  // User achievement routes
-  router.get('/:userId/achievements', (req, res) => getUserAchievementsController.handle(req, res));
-  router.post('/:userId/achievements/unlock', (req, res) => unlockAchievementController.handle(req, res));
+// User achievement routes (parameterized routes come after specific routes)
+router.get('/:userId/achievements', (req, res) => getUserAchievementsController.handle(req, res));
+router.post('/:userId/achievements/unlock', (req, res) => unlockAchievementController.handle(req, res));
 
-  return router;
-} 
+export default router; 

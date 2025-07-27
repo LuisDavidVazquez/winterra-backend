@@ -11,14 +11,10 @@ import { MarkAllNotificationsAsReadUseCase } from '../../../application/use-case
 import { DeleteNotificationUseCase } from '../../../application/use-cases/DeleteNotificationUseCase';
 
 import { PostgreSQLNotificationRepository } from '../../repositories/PostgreSQLNotification';
-import { NotificationModel } from '../../models/NotificationModel';
-import { getRepository } from 'typeorm';
 import { UUIDService } from '../../services/UUIDService';
 
 // Repositories
-export const notificationRepository = new PostgreSQLNotificationRepository(
-  getRepository(NotificationModel)
-);
+export const notificationRepository = new PostgreSQLNotificationRepository();
 
 // Use Cases
 export const createNotificationUseCase = new CreateNotificationUseCase(

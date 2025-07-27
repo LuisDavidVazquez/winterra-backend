@@ -14,6 +14,12 @@ export class AchievementModel {
   @Column('varchar', { length: 500, nullable: true })
   img: string | null;
 
+  @Column('int', { name: 'type_id' })
+  typeId: number;
+
+  @Column('int')
+  condition: number;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 } 

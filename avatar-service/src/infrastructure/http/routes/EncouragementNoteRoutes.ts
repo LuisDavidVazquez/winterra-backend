@@ -1,21 +1,17 @@
 import { Router } from 'express';
-import { CreateEncouragementNoteController } from '../controllers/CreateEncouragementNoteController';
-import { GetAvatarEncouragementNotesController } from '../controllers/GetAvatarEncouragementNotesController';
-import { GetAllEncouragementNotesController } from '../controllers/GetAllEncouragementNotesController';
+import {
+  createEncouragementNoteController,
+  getAvatarEncouragementNotesController,
+  getAllEncouragementNotesController
+} from '../dependencies/AvatarDependencies';
 
-export function createEncouragementNoteRoutes(
-  createEncouragementNoteController: CreateEncouragementNoteController,
-  getAvatarEncouragementNotesController: GetAvatarEncouragementNotesController,
-  getAllEncouragementNotesController: GetAllEncouragementNotesController
-): Router {
-  const router = Router();
+const router = Router();
 
-  // Encouragement note management routes
-  router.post('/encouragement-notes', (req, res) => createEncouragementNoteController.handle(req, res));
-  router.get('/encouragement-notes', (req, res) => getAllEncouragementNotesController.handle(req, res));
+// Encouragement note management routes (MUST come before parameterized routes)
+router.post('/encouragement-notes', (req, res) => createEncouragementNoteController.handle(req, res));
+router.get('/encouragement-notes', (req, res) => getAllEncouragementNotesController.handle(req, res));
 
-  // Avatar encouragement notes routes
-  router.get('/:avatarId/encouragement-notes', (req, res) => getAvatarEncouragementNotesController.handle(req, res));
+// Avatar encouragement notes routes (parameterized routes come after specific routes)
+router.get('/:avatarId/encouragement-notes', (req, res) => getAvatarEncouragementNotesController.handle(req, res));
 
-  return router;
-} 
+export default router; 
