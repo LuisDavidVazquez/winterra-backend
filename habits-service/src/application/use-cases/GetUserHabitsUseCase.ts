@@ -14,8 +14,8 @@ export class GetUserHabitsUseCase {
           id: userHabit.getId(),
           userId: userHabit.getUserId(),
           habitId: userHabit.getHabitId(),
-          customName: userHabit.getCustomName(),
-          customDescription: userHabit.getCustomDescription(),
+          name: userHabit.getName(),
+          description: userHabit.getDescription(),
           routineDays: userHabit.getRoutineDays().getValue(),
           activeDayNames: userHabit.getActiveDayNames(),
           createdAt: userHabit.getCreatedAt().toISOString()

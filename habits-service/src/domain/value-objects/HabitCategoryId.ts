@@ -7,8 +7,9 @@ export class HabitCategoryId {
   }
 
   private validate(id: number): void {
-    if (id <= 0) {
-      throw new Error('Habit category ID must be a positive integer');
+    // Permitir 0 para nuevos registros (será generado por la base de datos)
+    if (id < 0) {
+      throw new Error('Habit category ID must be a non-negative integer');
     }
 
     if (!Number.isInteger(id)) {

@@ -12,16 +12,16 @@ export class PostgreSQLHabitRepository implements IHabitRepository {
   async save(habit: HabitEntity): Promise<HabitEntity> {
     const model = new HabitModel();
     model.id = habit.getId();
-    model.habitType = habit.getHabitTypeId().getValue();
-    model.habitCategory = habit.getHabitCategoryId().getValue();
+    model.name = habit.getName().getValue();
+    model.categoryId = habit.getCategoryId().getValue();
     model.description = habit.getDescription();
 
     const savedModel = await this.repository.save(model);
 
     return new HabitEntity(
       savedModel.id,
-      savedModel.habitType,
-      savedModel.habitCategory,
+      savedModel.name,
+      savedModel.categoryId,
       savedModel.description
     );
   }
@@ -35,8 +35,23 @@ export class PostgreSQLHabitRepository implements IHabitRepository {
 
     return new HabitEntity(
       model.id,
-      model.habitType,
-      model.habitCategory,
+      model.name,
+      model.categoryId,
+      model.description
+    );
+  }
+
+  async findByName(name: string): Promise<HabitEntity | null> {
+    const model = await this.repository.findOne({ where: { name } });
+    
+    if (!model) {
+      return null;
+    }
+
+    return new HabitEntity(
+      model.id,
+      model.name,
+      model.categoryId,
       model.description
     );
   }
@@ -46,30 +61,19 @@ export class PostgreSQLHabitRepository implements IHabitRepository {
     
     return models.map(model => new HabitEntity(
       model.id,
-      model.habitType,
-      model.habitCategory,
-      model.description
-    ));
-  }
-
-  async findByTypeId(typeId: number): Promise<HabitEntity[]> {
-    const models = await this.repository.find({ where: { habitType: typeId } });
-    
-    return models.map(model => new HabitEntity(
-      model.id,
-      model.habitType,
-      model.habitCategory,
+      model.name,
+      model.categoryId,
       model.description
     ));
   }
 
   async findByCategoryId(categoryId: number): Promise<HabitEntity[]> {
-    const models = await this.repository.find({ where: { habitCategory: categoryId } });
+    const models = await this.repository.find({ where: { categoryId } });
     
     return models.map(model => new HabitEntity(
       model.id,
-      model.habitType,
-      model.habitCategory,
+      model.name,
+      model.categoryId,
       model.description
     ));
   }
@@ -81,16 +85,16 @@ export class PostgreSQLHabitRepository implements IHabitRepository {
       throw new Error('Habit not found');
     }
 
-    model.habitType = habit.getHabitTypeId().getValue();
-    model.habitCategory = habit.getHabitCategoryId().getValue();
+    model.name = habit.getName().getValue();
+    model.categoryId = habit.getCategoryId().getValue();
     model.description = habit.getDescription();
 
     const updatedModel = await this.repository.save(model);
 
     return new HabitEntity(
       updatedModel.id,
-      updatedModel.habitType,
-      updatedModel.habitCategory,
+      updatedModel.name,
+      updatedModel.categoryId,
       updatedModel.description
     );
   }
@@ -101,6 +105,11 @@ export class PostgreSQLHabitRepository implements IHabitRepository {
 
   async existsById(id: string): Promise<boolean> {
     const count = await this.repository.count({ where: { id } });
+    return count > 0;
+  }
+
+  async existsByName(name: string): Promise<boolean> {
+    const count = await this.repository.count({ where: { name } });
     return count > 0;
   }
 } 

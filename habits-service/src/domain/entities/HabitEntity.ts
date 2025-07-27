@@ -1,21 +1,21 @@
-import { HabitTypeId } from '../value-objects/HabitTypeId';
+import { HabitName } from '../value-objects/HabitName';
 import { HabitCategoryId } from '../value-objects/HabitCategoryId';
 
 export class HabitEntity {
   private readonly id: string;
-  private habitTypeId: HabitTypeId;
-  private habitCategoryId: HabitCategoryId;
+  private name: HabitName;
+  private categoryId: HabitCategoryId;
   private description: string | null;
 
   constructor(
     id: string,
-    habitTypeId: number,
-    habitCategoryId: number,
+    name: string,
+    categoryId: number,
     description: string | null = null
   ) {
     this.id = id;
-    this.habitTypeId = new HabitTypeId(habitTypeId);
-    this.habitCategoryId = new HabitCategoryId(habitCategoryId);
+    this.name = new HabitName(name);
+    this.categoryId = new HabitCategoryId(categoryId);
     this.description = description;
   }
 
@@ -24,12 +24,12 @@ export class HabitEntity {
     return this.id;
   }
 
-  getHabitTypeId(): HabitTypeId {
-    return this.habitTypeId;
+  getName(): HabitName {
+    return this.name;
   }
 
-  getHabitCategoryId(): HabitCategoryId {
-    return this.habitCategoryId;
+  getCategoryId(): HabitCategoryId {
+    return this.categoryId;
   }
 
   getDescription(): string | null {
@@ -37,12 +37,12 @@ export class HabitEntity {
   }
 
   // Business methods
-  updateHabitType(habitTypeId: number): void {
-    this.habitTypeId = new HabitTypeId(habitTypeId);
+  updateName(name: string): void {
+    this.name = new HabitName(name);
   }
 
-  updateHabitCategory(habitCategoryId: number): void {
-    this.habitCategoryId = new HabitCategoryId(habitCategoryId);
+  updateCategory(categoryId: number): void {
+    this.categoryId = new HabitCategoryId(categoryId);
   }
 
   updateDescription(description: string | null): void {
@@ -51,6 +51,6 @@ export class HabitEntity {
 
   // Validation methods
   isValid(): boolean {
-    return this.id.length > 0;
+    return this.id.length > 0 && this.name.getValue().length > 0;
   }
 } 

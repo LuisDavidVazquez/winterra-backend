@@ -11,11 +11,11 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  synchronize: false,
-  logging: process.env.NODE_ENV === 'development',
+  synchronize: process.env.NODE_ENV === 'development',
   ssl: {
     rejectUnauthorized: false,
   },
+  logging: process.env.NODE_ENV === 'development',
   entities: [UserModel, PlanModel, FriendshipModel, NotificationModel],
   migrations: [],
   subscribers: [],

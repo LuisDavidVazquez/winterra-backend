@@ -5,12 +5,12 @@ export class HabitModel {
   @PrimaryColumn('uuid')
   id: string;
 
-  @Column('int', { name: 'habit_type' })
-  habitType: number;
+  @Column('varchar', { length: 100, unique: true })
+  name: string;
 
-  @Column('int', { name: 'habit_category' })
-  habitCategory: number;
+  @Column('int', { name: 'category_id' })
+  categoryId: number;
 
-  @Column('text', { nullable: true })
+  @Column('varchar', { length: 500, nullable: true })
   description: string | null;
 } 

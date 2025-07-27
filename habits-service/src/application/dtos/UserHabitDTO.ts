@@ -1,15 +1,15 @@
 // Request DTOs
 export interface CreateUserHabitRequestDTO {
-  habitId?: string;
-  customName?: string;
-  customDescription?: string;
+  habitId: string;
+  name?: string;
+  description?: string;
   routineDays?: string;
 }
 
 export interface UpdateUserHabitRequestDTO {
   habitId?: string;
-  customName?: string;
-  customDescription?: string;
+  name?: string;
+  description?: string;
   routineDays?: string;
 }
 
@@ -18,8 +18,8 @@ export interface UserHabitResponseDTO {
   id: string;
   userId: string;
   habitId: string | null;
-  customName: string | null;
-  customDescription: string | null;
+  name: string | null;
+  description: string | null;
   routineDays: string;
   activeDayNames: string[];
   createdAt: string;

@@ -15,9 +15,9 @@ export class CreateUserHabitUseCase {
       const userHabit = new (await import('../../domain/entities/UserHabitEntity')).UserHabitEntity(
         habitId,
         userId,
-        data.habitId || null,
-        data.customName || null,
-        data.customDescription || null,
+        data.habitId,
+        data.name || null,
+        data.description || null,
         data.routineDays || '1111111'
       );
 
@@ -29,8 +29,8 @@ export class CreateUserHabitUseCase {
           id: savedUserHabit.getId(),
           userId: savedUserHabit.getUserId(),
           habitId: savedUserHabit.getHabitId(),
-          customName: savedUserHabit.getCustomName(),
-          customDescription: savedUserHabit.getCustomDescription(),
+          name: savedUserHabit.getName(),
+          description: savedUserHabit.getDescription(),
           routineDays: savedUserHabit.getRoutineDays().getValue(),
           activeDayNames: savedUserHabit.getActiveDayNames(),
           createdAt: savedUserHabit.getCreatedAt().toISOString()

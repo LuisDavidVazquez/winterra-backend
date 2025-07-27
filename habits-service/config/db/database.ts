@@ -1,8 +1,9 @@
 import { DataSource } from 'typeorm';
-import { HabitTypeModel } from '../../src/infrastructure/models/HabitTypeModel';
 import { HabitCategoryModel } from '../../src/infrastructure/models/HabitCategoryModel';
 import { HabitModel } from '../../src/infrastructure/models/HabitModel';
 import { UserHabitModel } from '../../src/infrastructure/models/UserHabitModel';
+import { StudySessionModel } from '../../src/infrastructure/models/StudySessionModel';
+import { SleepSessionModel } from '../../src/infrastructure/models/SleepSessionModel';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -12,8 +13,11 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD || 'password',
   database: process.env.DB_DATABASE || 'habits_service',
   synchronize: process.env.NODE_ENV === 'development',
+  ssl: {
+    rejectUnauthorized: false,
+  },
   logging: process.env.NODE_ENV === 'development',
-  entities: [HabitTypeModel, HabitCategoryModel, HabitModel, UserHabitModel],
+  entities: [HabitCategoryModel, HabitModel, UserHabitModel, StudySessionModel, SleepSessionModel],
   subscribers: [],
   migrations: [],
 });

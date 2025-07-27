@@ -1,0 +1,148 @@
+{
+  "info": {
+    "name": "Rewards Service API",
+    "description": "API para gestionar misiones y recompensas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "Missions",
+      "item": [
+        {
+          "name": "Create Mission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"habitId\": 1,\n  \"title\": \"Complete 5 workouts\",\n  \"description\": \"Complete 5 workouts this week to earn rewards\",\n  \"difficultyLevel\": \"medium\",\n  \"expReward\": 100,\n  \"coinReward\": 50,\n  \"createdBySystem\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/missions",
+              "host": ["{{base_url}}"],
+              "path": ["api", "missions"]
+            }
+          }
+        },
+        {
+          "name": "Get All Missions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/missions",
+              "host": ["{{base_url}}"],
+              "path": ["api", "missions"]
+            }
+          }
+        },
+        {
+          "name": "Get Missions by Habit ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/missions/habit/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "missions", "habit", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Missions",
+      "item": [
+        {
+          "name": "Assign Mission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userHabitsId\": \"{{user_habits_id}}\",\n  \"missionId\": \"{{mission_id}}\",\n  \"objective\": 5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/user-missions/assign",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user-missions", "assign"]
+            }
+          }
+        },
+        {
+          "name": "Update Progress",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"progress\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/user-missions/{{user_mission_id}}/progress",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user-missions", "{{user_mission_id}}", "progress"]
+            }
+          }
+        },
+        {
+          "name": "Get User Missions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/user-missions/user/{{user_habits_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user-missions", "user", "{{user_habits_id}}"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3004"
+    },
+    {
+      "key": "user_habits_id",
+      "value": "your-user-habits-id"
+    },
+    {
+      "key": "mission_id",
+      "value": "your-mission-id"
+    },
+    {
+      "key": "user_mission_id",
+      "value": "your-user-mission-id"
+    }
+  ]
+} 

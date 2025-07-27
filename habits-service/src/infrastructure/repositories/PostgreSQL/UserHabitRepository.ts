@@ -14,8 +14,8 @@ export class PostgreSQLUserHabitRepository implements IUserHabitRepository {
     model.id = userHabit.getId();
     model.userId = userHabit.getUserId();
     model.habitId = userHabit.getHabitId();
-    model.customName = userHabit.getCustomName();
-    model.customDescription = userHabit.getCustomDescription();
+    model.name = userHabit.getName();
+    model.description = userHabit.getDescription();
     model.routineDays = userHabit.getRoutineDays().getValue();
     model.createdAt = userHabit.getCreatedAt();
 
@@ -25,8 +25,8 @@ export class PostgreSQLUserHabitRepository implements IUserHabitRepository {
       savedModel.id,
       savedModel.userId,
       savedModel.habitId,
-      savedModel.customName,
-      savedModel.customDescription,
+      savedModel.name,
+      savedModel.description,
       savedModel.routineDays,
       savedModel.createdAt
     );
@@ -43,8 +43,8 @@ export class PostgreSQLUserHabitRepository implements IUserHabitRepository {
       model.id,
       model.userId,
       model.habitId,
-      model.customName,
-      model.customDescription,
+      model.name,
+      model.description,
       model.routineDays,
       model.createdAt
     );
@@ -57,8 +57,8 @@ export class PostgreSQLUserHabitRepository implements IUserHabitRepository {
       model.id,
       model.userId,
       model.habitId,
-      model.customName,
-      model.customDescription,
+      model.name,
+      model.description,
       model.routineDays,
       model.createdAt
     ));
@@ -71,8 +71,8 @@ export class PostgreSQLUserHabitRepository implements IUserHabitRepository {
       model.id,
       model.userId,
       model.habitId,
-      model.customName,
-      model.customDescription,
+      model.name,
+      model.description,
       model.routineDays,
       model.createdAt
     ));
@@ -90,8 +90,8 @@ export class PostgreSQLUserHabitRepository implements IUserHabitRepository {
       model.id,
       model.userId,
       model.habitId,
-      model.customName,
-      model.customDescription,
+      model.name,
+      model.description,
       model.routineDays,
       model.createdAt
     ));
@@ -109,8 +109,8 @@ export class PostgreSQLUserHabitRepository implements IUserHabitRepository {
       model.id,
       model.userId,
       model.habitId,
-      model.customName,
-      model.customDescription,
+      model.name,
+      model.description,
       model.routineDays,
       model.createdAt
     ));
@@ -124,8 +124,8 @@ export class PostgreSQLUserHabitRepository implements IUserHabitRepository {
     }
 
     model.habitId = userHabit.getHabitId();
-    model.customName = userHabit.getCustomName();
-    model.customDescription = userHabit.getCustomDescription();
+    model.name = userHabit.getName();
+    model.description = userHabit.getDescription();
     model.routineDays = userHabit.getRoutineDays().getValue();
 
     const updatedModel = await this.repository.save(model);
@@ -134,8 +134,8 @@ export class PostgreSQLUserHabitRepository implements IUserHabitRepository {
       updatedModel.id,
       updatedModel.userId,
       updatedModel.habitId,
-      updatedModel.customName,
-      updatedModel.customDescription,
+      updatedModel.name,
+      updatedModel.description,
       updatedModel.routineDays,
       updatedModel.createdAt
     );

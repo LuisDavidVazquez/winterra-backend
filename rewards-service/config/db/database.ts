@@ -1,4 +1,6 @@
 import { DataSource } from 'typeorm';
+import { MissionModel } from '../../src/infrastructure/models/MissionModel';
+import { UserMissionModel } from '../../src/infrastructure/models/UserMissionModel';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -7,12 +9,12 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  synchronize: false,
-  logging: process.env.NODE_ENV === 'development',
+  synchronize: process.env.NODE_ENV === 'development',
   ssl: {
     rejectUnauthorized: false,
   },
-  entities: [],
+  logging: process.env.NODE_ENV === 'development',
+  entities: [MissionModel, UserMissionModel],
   migrations: [],
   subscribers: [],
 });

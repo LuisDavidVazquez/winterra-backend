@@ -11,7 +11,11 @@ export class PostgreSQLHabitCategoryRepository implements IHabitCategoryReposito
 
   async save(habitCategory: HabitCategoryEntity): Promise<HabitCategoryEntity> {
     const model = new HabitCategoryModel();
-    model.id = habitCategory.getId().getValue();
+    // Solo asignar ID si no es 0 (nuevo registro)
+    const id = habitCategory.getId().getValue();
+    if (id > 0) {
+      model.id = id;
+    }
     model.name = habitCategory.getName();
     model.color = habitCategory.getColor();
 

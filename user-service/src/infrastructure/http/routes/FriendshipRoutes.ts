@@ -15,9 +15,9 @@ const router = Router();
 
 // Friendship Routes
 router.post('/friendships', (req, res) => createFriendshipController.handle(req, res));
-router.get('/users/:userId/friendships', (req, res) => getFriendshipsController.handle(req, res));
-router.get('/users/:userId/friend-requests', (req, res) => getPendingFriendRequestsController.handle(req, res));
-router.get('/users/:userId/best-friends', (req, res) => getBestFriendsController.handle(req,  res));
+router.get('/:userId/friendships', (req, res) => getFriendshipsController.handle(req, res));
+router.get('/:userId/friend-requests', (req, res) => getPendingFriendRequestsController.handle(req, res));
+router.get('/:userId/best-friends', (req, res) => getBestFriendsController.handle(req,  res));
 
 // Friendship Management Routes
 router.put('/friendships/:friendshipId/accept', (req, res) => acceptFriendshipController.handle(req, res));

@@ -5,8 +5,8 @@ export class UserHabitEntity {
   private readonly id: string;
   private readonly userId: string;
   private habitId: string | null;
-  private customName: HabitName | null;
-  private customDescription: string | null;
+  private name: HabitName | null;
+  private description: string | null;
   private routineDays: RoutineDays;
   private readonly createdAt: Date;
 
@@ -14,16 +14,16 @@ export class UserHabitEntity {
     id: string,
     userId: string,
     habitId: string | null = null,
-    customName: string | null = null,
-    customDescription: string | null = null,
+    name: string | null = null,
+    description: string | null = null,
     routineDays: string = '1111111', // Por defecto todos los días
     createdAt?: Date
   ) {
     this.id = id;
     this.userId = userId;
     this.habitId = habitId;
-    this.customName = customName ? new HabitName(customName) : null;
-    this.customDescription = customDescription;
+    this.name = name ? new HabitName(name) : null;
+    this.description = description;
     this.routineDays = new RoutineDays(routineDays);
     this.createdAt = createdAt || new Date();
   }
@@ -41,12 +41,12 @@ export class UserHabitEntity {
     return this.habitId;
   }
 
-  getCustomName(): string | null {
-    return this.customName?.getValue() || null;
+  getName(): string | null {
+    return this.name?.getValue() || null;
   }
 
-  getCustomDescription(): string | null {
-    return this.customDescription;
+  getDescription(): string | null {
+    return this.description;
   }
 
   getRoutineDays(): RoutineDays {
@@ -62,12 +62,12 @@ export class UserHabitEntity {
     this.habitId = habitId;
   }
 
-  updateCustomName(customName: string | null): void {
-    this.customName = customName ? new HabitName(customName) : null;
+  updateName(name: string | null): void {
+    this.name = name ? new HabitName(name) : null;
   }
 
-  updateCustomDescription(customDescription: string | null): void {
-    this.customDescription = customDescription;
+  updateDescription(description: string | null): void {
+    this.description = description;
   }
 
   updateRoutineDays(routineDays: string): void {
@@ -92,7 +92,7 @@ export class UserHabitEntity {
   }
 
   isCustomHabit(): boolean {
-    return this.customName !== null;
+    return this.name !== null;
   }
 
   isSystemHabit(): boolean {

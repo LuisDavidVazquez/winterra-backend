@@ -11,11 +11,11 @@ export class UserHabitModel {
   @Column('uuid', { name: 'habit_id', nullable: true })
   habitId: string | null;
 
-  @Column('varchar', { length: 100, name: 'custom_name', nullable: true })
-  customName: string | null;
+  @Column('varchar', { length: 100, name: 'name', nullable: true })
+  name: string | null;
 
-  @Column('text', { name: 'custom_description', nullable: true })
-  customDescription: string | null;
+  @Column('text', { name: 'description', nullable: true })
+  description: string | null;
 
   @Column('varchar', { length: 7, name: 'routine_days' })
   routineDays: string;

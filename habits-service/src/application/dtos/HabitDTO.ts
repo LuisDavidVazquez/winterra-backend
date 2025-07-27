@@ -1,21 +1,21 @@
 // Request DTOs
 export interface CreateHabitRequestDTO {
-  habitTypeId: number;
-  habitCategoryId: number;
+  name: string;
+  categoryId: number;
   description?: string;
 }
 
 export interface UpdateHabitRequestDTO {
-  habitTypeId?: number;
-  habitCategoryId?: number;
+  name?: string;
+  categoryId?: number;
   description?: string;
 }
 
 // Response DTOs
 export interface HabitResponseDTO {
   id: string;
-  habitTypeId: number;
-  habitCategoryId: number;
+  name: string;
+  categoryId: number;
   description: string | null;
 }
 
