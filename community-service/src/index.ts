@@ -15,9 +15,9 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 // Routes
-app.use('/api', postRoutes);
-app.use('/api', commentRoutes);
-app.use('/api', reactionRoutes);
+app.use('/api/community', postRoutes);
+app.use('/api/community', commentRoutes);
+app.use('/api/community', reactionRoutes);
 
 // Health check endpoint
 app.get('/health', (_, res) => {

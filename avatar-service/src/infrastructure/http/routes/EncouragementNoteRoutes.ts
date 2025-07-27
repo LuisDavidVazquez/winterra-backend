@@ -15,7 +15,7 @@ export function createEncouragementNoteRoutes(
   router.get('/encouragement-notes', (req, res) => getAllEncouragementNotesController.handle(req, res));
 
   // Avatar encouragement notes routes
-  router.get('/avatars/:avatarId/encouragement-notes', (req, res) => getAvatarEncouragementNotesController.handle(req, res));
+  router.get('/:avatarId/encouragement-notes', (req, res) => getAvatarEncouragementNotesController.handle(req, res));
 
   return router;
 } 
