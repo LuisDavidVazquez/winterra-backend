@@ -32,7 +32,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"habitId\": 1,\n  \"title\": \"Complete 5 workouts\",\n  \"description\": \"Complete 5 workouts this week to earn rewards\",\n  \"difficultyLevel\": \"medium\",\n  \"expReward\": 100,\n  \"coinReward\": 50,\n  \"createdBySystem\": true\n}"
+              "raw": "{\n  \"habitId\": 1,\n  \"title\": \"Complete 5 workouts\",\n  \"description\": \"Complete 5 workouts this week to earn rewards\",\n  \"difficultyLevel\": \"medium\",\n  \"expReward\": 100,\n  \"coinReward\": 50,\n  \"objective\": 5,\n  \"createdBySystem\": true\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/missions",
@@ -82,7 +82,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"userHabitsId\": \"{{user_habits_id}}\",\n  \"missionId\": \"{{mission_id}}\",\n  \"objective\": 5\n}"
+              "raw": "{\n  \"userHabitsId\": \"{{user_habits_id}}\",\n  \"missionId\": \"{{mission_id}}\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/user-missions/assign",
@@ -116,6 +116,18 @@
           "name": "Get User Missions",
           "request": {
             "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/user-missions/user/{{user_habits_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user-missions", "user", "{{user_habits_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete User Missions by User Habits ID",
+          "request": {
+            "method": "DELETE",
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/user-missions/user/{{user_habits_id}}",

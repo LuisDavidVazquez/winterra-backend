@@ -12,6 +12,7 @@ export class MissionEntity {
   private difficultyLevel: DifficultyLevel;
   private expReward: number;
   private coinReward: number;
+  private objective: number;
   private createdBySystem: boolean;
   private readonly createdAt: Date;
 
@@ -23,6 +24,7 @@ export class MissionEntity {
     difficultyLevel: DifficultyLevel,
     expReward: number,
     coinReward: number,
+    objective: number,
     createdBySystem: boolean = true,
     createdAt?: Date
   ) {
@@ -33,6 +35,7 @@ export class MissionEntity {
     this.difficultyLevel = difficultyLevel;
     this.expReward = expReward;
     this.coinReward = coinReward;
+    this.objective = objective;
     this.createdBySystem = createdBySystem;
     this.createdAt = createdAt || new Date();
   }
@@ -66,6 +69,10 @@ export class MissionEntity {
     return this.coinReward;
   }
 
+  getObjective(): number {
+    return this.objective;
+  }
+
   isCreatedBySystem(): boolean {
     return this.createdBySystem;
   }
@@ -90,6 +97,10 @@ export class MissionEntity {
   updateRewards(expReward: number, coinReward: number): void {
     this.expReward = expReward;
     this.coinReward = coinReward;
+  }
+
+  updateObjective(objective: number): void {
+    this.objective = objective;
   }
 
   setCreatedBySystem(createdBySystem: boolean): void {

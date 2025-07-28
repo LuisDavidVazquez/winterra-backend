@@ -2,13 +2,15 @@ import { Request, Response } from 'express';
 import { AssignMissionUseCase } from '../../../application/use-cases/AssignMissionUseCase';
 import { UpdateUserMissionProgressUseCase } from '../../../application/use-cases/UpdateUserMissionProgressUseCase';
 import { GetUserMissionsUseCase } from '../../../application/use-cases/GetUserMissionsUseCase';
+import { DeleteUserMissionsByUserHabitsIdUseCase } from '../../../application/use-cases/DeleteUserMissionsByUserHabitsIdUseCase';
 import { AssignMissionDTO, UpdateProgressDTO } from '../../../application/dtos/UserMissionDTO';
 
 export class UserMissionController {
   constructor(
     private assignMissionUseCase: AssignMissionUseCase,
     private updateUserMissionProgressUseCase: UpdateUserMissionProgressUseCase,
-    private getUserMissionsUseCase: GetUserMissionsUseCase
+    private getUserMissionsUseCase: GetUserMissionsUseCase,
+    private deleteUserMissionsByUserHabitsIdUseCase: DeleteUserMissionsByUserHabitsIdUseCase
   ) {}
 
   async assignMission(req: Request, res: Response): Promise<void> {
@@ -39,6 +41,16 @@ export class UserMissionController {
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+    }
+  }
+
+  async deleteUserMissionsByUserHabitsId(req: Request, res: Response): Promise<void> {
+    try {
+      const userHabitsId = req.params.userHabitsId;
+      await this.deleteUserMissionsByUserHabitsIdUseCase.execute(userHabitsId);
+      res.status(200).json({ message: 'User missions deleted successfully' });
+    } catch (error) {
+      res.status(400).json({ error: error instanceof Error ? error.message : 'Unknown error' });
     }
   }
 } 

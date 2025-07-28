@@ -50,6 +50,19 @@ CREATE TABLE IF NOT EXISTS sleep_sessions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Create habit_duels table
+CREATE TABLE IF NOT EXISTS habit_duels (
+    id UUID PRIMARY KEY,
+    user_habit_id UUID REFERENCES user_habits(id),
+    challenger_id UUID NOT NULL,
+    opponent_id UUID NOT NULL,
+    streak_challenger INT NOT NULL DEFAULT 0,
+    streak_opponent INT NOT NULL DEFAULT 0,
+    status VARCHAR(20) CHECK (status IN ('pending', 'accepted', 'rejected', 'completed', 'cancelled')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP
+);
+
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_habit_categories_name ON habit_categories(name);
 CREATE INDEX IF NOT EXISTS idx_habits_name ON habits(name);
@@ -61,6 +74,11 @@ CREATE INDEX IF NOT EXISTS idx_study_sessions_user_habit_id ON study_sessions(us
 CREATE INDEX IF NOT EXISTS idx_study_sessions_created_at ON study_sessions(created_at);
 CREATE INDEX IF NOT EXISTS idx_sleep_sessions_user_habit_id ON sleep_sessions(user_habit_id);
 CREATE INDEX IF NOT EXISTS idx_sleep_sessions_created_at ON sleep_sessions(created_at);
+CREATE INDEX IF NOT EXISTS idx_habit_duels_user_habit_id ON habit_duels(user_habit_id);
+CREATE INDEX IF NOT EXISTS idx_habit_duels_challenger_id ON habit_duels(challenger_id);
+CREATE INDEX IF NOT EXISTS idx_habit_duels_opponent_id ON habit_duels(opponent_id);
+CREATE INDEX IF NOT EXISTS idx_habit_duels_status ON habit_duels(status);
+CREATE INDEX IF NOT EXISTS idx_habit_duels_created_at ON habit_duels(created_at);
 
 -- Comments
 COMMENT ON TABLE habit_categories IS 'Categorías de hábitos';
@@ -97,6 +115,16 @@ COMMENT ON COLUMN sleep_sessions.wake_up_time IS 'Hora de despertar';
 COMMENT ON COLUMN sleep_sessions.total_hours IS 'Total de horas dormidas';
 COMMENT ON COLUMN sleep_sessions.sleep_quality IS 'Calidad del sueño (buena, media, mala)';
 COMMENT ON COLUMN sleep_sessions.notes IS 'Notas adicionales del sueño';
+
+COMMENT ON TABLE habit_duels IS 'Duelos de hábitos entre usuarios';
+COMMENT ON COLUMN habit_duels.user_habit_id IS 'ID del hábito de usuario';
+COMMENT ON COLUMN habit_duels.challenger_id IS 'ID del usuario que reta';
+COMMENT ON COLUMN habit_duels.opponent_id IS 'ID del usuario retado';
+COMMENT ON COLUMN habit_duels.streak_challenger IS 'Racha actual del retador';
+COMMENT ON COLUMN habit_duels.streak_opponent IS 'Racha actual del oponente';
+COMMENT ON COLUMN habit_duels.status IS 'Estado del duelo (pending, accepted, rejected, completed, cancelled)';
+COMMENT ON COLUMN habit_duels.created_at IS 'Fecha de creación del duelo';
+COMMENT ON COLUMN habit_duels.completed_at IS 'Fecha de finalización del duelo';
 
 -- Insert default data
 INSERT INTO habit_categories (name, color) VALUES

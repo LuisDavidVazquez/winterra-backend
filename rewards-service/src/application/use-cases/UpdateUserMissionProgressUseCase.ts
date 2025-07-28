@@ -1,8 +1,12 @@
 import { UserMissionRepository } from '../../domain/repositories/UserMissionRepository';
+import { MissionRepository } from '../../domain/repositories/MissionRepository';
 import { UpdateProgressDTO, UserMissionResponseDTO } from '../dtos/UserMissionDTO';
 
 export class UpdateUserMissionProgressUseCase {
-  constructor(private userMissionRepository: UserMissionRepository) {}
+  constructor(
+    private userMissionRepository: UserMissionRepository,
+    private missionRepository: MissionRepository
+  ) {}
 
   async execute(userMissionId: string, data: UpdateProgressDTO): Promise<UserMissionResponseDTO> {
     const userMission = await this.userMissionRepository.findById(userMissionId);
@@ -11,7 +15,12 @@ export class UpdateUserMissionProgressUseCase {
       throw new Error('User mission not found');
     }
 
-    userMission.updateProgress(data.progress);
+    const mission = await this.missionRepository.findById(userMission.getMissionId());
+    if (!mission) {
+      throw new Error('Mission not found');
+    }
+
+    userMission.updateProgress(data.progress, mission.getObjective());
     const updatedUserMission = await this.userMissionRepository.update(userMission);
 
     return {
@@ -20,10 +29,9 @@ export class UpdateUserMissionProgressUseCase {
       missionId: updatedUserMission.getMissionId(),
       status: updatedUserMission.getStatus(),
       progress: updatedUserMission.getProgress(),
-      objective: updatedUserMission.getObjective(),
       assignedAt: updatedUserMission.getAssignedAt(),
       completedAt: updatedUserMission.getCompletedAt(),
-      progressPercentage: updatedUserMission.getProgressPercentage()
+      progressPercentage: updatedUserMission.getProgressPercentage(mission.getObjective())
     };
   }
 } 

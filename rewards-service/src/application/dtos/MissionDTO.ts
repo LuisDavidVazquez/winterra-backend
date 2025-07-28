@@ -7,6 +7,7 @@ export interface CreateMissionDTO {
   difficultyLevel: DifficultyLevel;
   expReward: number;
   coinReward: number;
+  objective: number;
   createdBySystem?: boolean;
 }
 
@@ -16,6 +17,7 @@ export interface UpdateMissionDTO {
   difficultyLevel?: DifficultyLevel;
   expReward?: number;
   coinReward?: number;
+  objective?: number;
   createdBySystem?: boolean;
 }
 
@@ -27,6 +29,7 @@ export interface MissionResponseDTO {
   difficultyLevel: string;
   expReward: number;
   coinReward: number;
+  objective: number;
   createdBySystem: boolean;
   createdAt: Date;
 }

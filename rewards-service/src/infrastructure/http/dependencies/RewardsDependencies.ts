@@ -6,6 +6,7 @@ import { GetMissionsByHabitIdUseCase } from '../../../application/use-cases/GetM
 import { AssignMissionUseCase } from '../../../application/use-cases/AssignMissionUseCase';
 import { UpdateUserMissionProgressUseCase } from '../../../application/use-cases/UpdateUserMissionProgressUseCase';
 import { GetUserMissionsUseCase } from '../../../application/use-cases/GetUserMissionsUseCase';
+import { DeleteUserMissionsByUserHabitsIdUseCase } from '../../../application/use-cases/DeleteUserMissionsByUserHabitsIdUseCase';
 import { PostgreSQLMissionRepository } from '../../repositories/PostgreSQL/MissionRepository';
 import { PostgreSQLUserMissionRepository } from '../../repositories/PostgreSQL/UserMissionRepository';
 import { UUIDService } from '../../services/UUIDService';
@@ -22,8 +23,9 @@ export const createMissionUseCase = new CreateMissionUseCase(missionRepository, 
 export const getAllMissionsUseCase = new GetAllMissionsUseCase(missionRepository);
 export const getMissionsByHabitIdUseCase = new GetMissionsByHabitIdUseCase(missionRepository);
 export const assignMissionUseCase = new AssignMissionUseCase(userMissionRepository, missionRepository, uuidService);
-export const updateUserMissionProgressUseCase = new UpdateUserMissionProgressUseCase(userMissionRepository);
-export const getUserMissionsUseCase = new GetUserMissionsUseCase(userMissionRepository);
+export const updateUserMissionProgressUseCase = new UpdateUserMissionProgressUseCase(userMissionRepository, missionRepository);
+export const getUserMissionsUseCase = new GetUserMissionsUseCase(userMissionRepository, missionRepository);
+export const deleteUserMissionsByUserHabitsIdUseCase = new DeleteUserMissionsByUserHabitsIdUseCase(userMissionRepository);
 
 // Controllers
 export const missionController = new MissionController(
@@ -35,5 +37,6 @@ export const missionController = new MissionController(
 export const userMissionController = new UserMissionController(
   assignMissionUseCase,
   updateUserMissionProgressUseCase,
-  getUserMissionsUseCase
+  getUserMissionsUseCase,
+  deleteUserMissionsByUserHabitsIdUseCase
 ); 

@@ -9,7 +9,6 @@ export class UserMissionEntity {
   private missionId: string;
   private status: UserMissionStatus;
   private progress: number;
-  private objective: number;
   private readonly assignedAt: Date;
   private completedAt: Date | null;
 
@@ -17,7 +16,6 @@ export class UserMissionEntity {
     id: string,
     userHabitsId: string,
     missionId: string,
-    objective: number,
     status: UserMissionStatus = UserMissionStatus.IN_PROGRESS,
     progress: number = 0,
     assignedAt?: Date,
@@ -28,7 +26,6 @@ export class UserMissionEntity {
     this.missionId = missionId;
     this.status = status;
     this.progress = progress;
-    this.objective = objective;
     this.assignedAt = assignedAt || new Date();
     this.completedAt = completedAt || null;
   }
@@ -54,10 +51,6 @@ export class UserMissionEntity {
     return this.progress;
   }
 
-  getObjective(): number {
-    return this.objective;
-  }
-
   getAssignedAt(): Date {
     return this.assignedAt;
   }
@@ -67,17 +60,16 @@ export class UserMissionEntity {
   }
 
   // Business methods
-  updateProgress(progress: number): void {
-    this.progress = Math.min(progress, this.objective);
+  updateProgress(progress: number, objective: number): void {
+    this.progress = Math.min(progress, objective);
     
-    if (this.progress >= this.objective) {
+    if (this.progress >= objective) {
       this.complete();
     }
   }
 
   complete(): void {
     this.status = UserMissionStatus.COMPLETED;
-    this.progress = this.objective;
     this.completedAt = new Date();
   }
 
@@ -89,12 +81,12 @@ export class UserMissionEntity {
     return this.status === UserMissionStatus.IN_PROGRESS;
   }
 
-  getProgressPercentage(): number {
-    return (this.progress / this.objective) * 100;
+  getProgressPercentage(objective: number): number {
+    return (this.progress / objective) * 100;
   }
 
-  isProgressComplete(): boolean {
-    return this.progress >= this.objective;
+  isProgressComplete(objective: number): boolean {
+    return this.progress >= objective;
   }
 
   resetProgress(): void {

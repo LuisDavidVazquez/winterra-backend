@@ -24,6 +24,9 @@ export class MissionModel {
   @Column('int')
   coin_reward: number;
 
+  @Column('int')
+  objective: number;
+
   @Column('boolean', { default: true })
   created_by_system: boolean;
 
@@ -39,6 +42,7 @@ export class MissionModel {
     model.difficulty_level = mission.getDifficultyLevel();
     model.exp_reward = mission.getExpReward();
     model.coin_reward = mission.getCoinReward();
+    model.objective = mission.getObjective();
     model.created_by_system = mission.isCreatedBySystem();
     model.created_at = mission.getCreatedAt();
     return model;
@@ -53,6 +57,7 @@ export class MissionModel {
       this.difficulty_level as DifficultyLevel,
       this.exp_reward,
       this.coin_reward,
+      this.objective,
       this.created_by_system,
       this.created_at
     );

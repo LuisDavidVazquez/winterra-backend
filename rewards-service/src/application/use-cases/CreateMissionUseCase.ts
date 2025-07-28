@@ -20,6 +20,7 @@ export class CreateMissionUseCase {
       data.difficultyLevel,
       data.expReward,
       data.coinReward,
+      data.objective,
       data.createdBySystem ?? true
     );
 
@@ -33,6 +34,7 @@ export class CreateMissionUseCase {
       difficultyLevel: savedMission.getDifficultyLevel(),
       expReward: savedMission.getExpReward(),
       coinReward: savedMission.getCoinReward(),
+      objective: savedMission.getObjective(),
       createdBySystem: savedMission.isCreatedBySystem(),
       createdAt: savedMission.getCreatedAt()
     };

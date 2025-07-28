@@ -15,6 +15,7 @@ export class GetAllMissionsUseCase {
       difficultyLevel: mission.getDifficultyLevel(),
       expReward: mission.getExpReward(),
       coinReward: mission.getCoinReward(),
+      objective: mission.getObjective(),
       createdBySystem: mission.isCreatedBySystem(),
       createdAt: mission.getCreatedAt()
     }));

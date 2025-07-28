@@ -8,6 +8,7 @@ import habitCategoryRoutes from './infrastructure/http/routes/HabitCategoryRoute
 import userHabitRoutes from './infrastructure/http/routes/UserHabitRoutes';
 import studySessionRoutes from './infrastructure/http/routes/StudySessionRoutes';
 import sleepSessionRoutes from './infrastructure/http/routes/SleepSessionRoutes';
+import habitDuelRoutes from './infrastructure/http/routes/HabitDuelRoutes';
 
 const app = express();
 const port = process.env.PORT || 3003;
@@ -22,6 +23,7 @@ app.use('/api/habits', habitCategoryRoutes);
 app.use('/api/habits', userHabitRoutes);
 app.use('/api/habits', studySessionRoutes);
 app.use('/api/habits', sleepSessionRoutes);
+app.use('/api/habits', habitDuelRoutes);
 
 // Health check endpoint
 app.get('/health', (_, res) => {
@@ -46,6 +48,7 @@ async function initializeApp() {
       console.log(`👤 User habit endpoints: http://localhost:${port}/api/habits/user-habits`);
       console.log(`📚 Study session endpoints: http://localhost:${port}/api/habits/study-sessions`);
       console.log(`💤 Sleep session endpoints: http://localhost:${port}/api/habits/sleep-sessions`);
+      console.log(`⚔️ Habit duel endpoints: http://localhost:${port}/api/habits/habit-duels`);
     });
   } catch (error) {
     console.error('Failed to initialize application:', error);

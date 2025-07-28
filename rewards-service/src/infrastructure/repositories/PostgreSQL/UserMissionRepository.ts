@@ -52,6 +52,10 @@ export class PostgreSQLUserMissionRepository implements IUserMissionRepository {
     await this.repository.delete(id);
   }
 
+  async deleteByUserHabitsId(userHabitsId: string): Promise<void> {
+    await this.repository.delete({ user_habits_id: userHabitsId });
+  }
+
   async findByUserHabitsIdAndStatus(userHabitsId: string, status: string): Promise<UserMissionEntity[]> {
     const userMissionModels = await this.repository.find({ 
       where: { 

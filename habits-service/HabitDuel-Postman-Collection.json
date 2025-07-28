@@ -1,0 +1,254 @@
+{
+	"info": {
+		"_postman_id": "habit-duel-collection",
+		"name": "Habit Duel API",
+		"description": "API collection for Habit Duel functionality - Duelos de hábitos entre usuarios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Habit Duel",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userHabitId\": \"{{user_habit_id}}\",\n  \"challengerId\": \"{{challenger_id}}\",\n  \"opponentId\": \"{{opponent_id}}\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/habits/habit-duels",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"habits",
+						"habit-duels"
+					]
+				},
+				"description": "Crear un nuevo duelo de hábitos entre dos usuarios"
+			}
+		},
+		{
+			"name": "Get All Habit Duels",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/habits/habit-duels",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"habits",
+						"habit-duels"
+					]
+				},
+				"description": "Obtener todos los duelos de hábitos del sistema"
+			}
+		},
+		{
+			"name": "Get Habit Duel by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/habits/habit-duels/{{duel_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"habits",
+						"habit-duels",
+						"{{duel_id}}"
+					]
+				},
+				"description": "Obtener un duelo específico por su ID"
+			}
+		},
+		{
+			"name": "Accept Habit Duel",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"duelId\": \"{{duel_id}}\",\n  \"opponentId\": \"{{opponent_id}}\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/habits/habit-duels/accept",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"habits",
+						"habit-duels",
+						"accept"
+					]
+				},
+				"description": "Aceptar un duelo pendiente (solo el opponent puede aceptar)"
+			}
+		},
+		{
+			"name": "Reject Habit Duel",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"duelId\": \"{{duel_id}}\",\n  \"opponentId\": \"{{opponent_id}}\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/habits/habit-duels/reject",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"habits",
+						"habit-duels",
+						"reject"
+					]
+				},
+				"description": "Rechazar un duelo pendiente (solo el opponent puede rechazar)"
+			}
+		},
+		{
+			"name": "Complete Habit Duel",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"duelId\": \"{{duel_id}}\",\n  \"userId\": \"{{user_id}}\",\n  \"streakChallenger\": 15,\n  \"streakOpponent\": 12\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/habits/habit-duels/complete",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"habits",
+						"habit-duels",
+						"complete"
+					]
+				},
+				"description": "Completar un duelo aceptado con los streaks finales"
+			}
+		},
+		{
+			"name": "Get Duels by User ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/habits/habit-duels/user/{{user_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"habits",
+						"habit-duels",
+						"user",
+						"{{user_id}}"
+					]
+				},
+				"description": "Obtener todos los duelos de un usuario específico (como challenger o opponent)"
+			}
+		},
+		{
+			"name": "Delete Habit Duel",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/habits/habit-duels/{{duel_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"habits",
+						"habit-duels",
+						"{{duel_id}}"
+					]
+				},
+				"description": "Eliminar un duelo (solo duelos pendientes o rechazados)"
+			}
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				},
+				"description": "Verificar el estado del servicio"
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3003",
+			"description": "URL base del servicio de hábitos"
+		},
+		{
+			"key": "user_id",
+			"value": "user-uuid-here",
+			"description": "ID del usuario"
+		},
+		{
+			"key": "user_habit_id",
+			"value": "user-habit-uuid-here",
+			"description": "ID del hábito de usuario"
+		},
+		{
+			"key": "duel_id",
+			"value": "duel-uuid-here",
+			"description": "ID del duelo"
+		},
+		{
+			"key": "challenger_id",
+			"value": "challenger-uuid-here",
+			"description": "ID del usuario que reta"
+		},
+		{
+			"key": "opponent_id",
+			"value": "opponent-uuid-here",
+			"description": "ID del usuario retado"
+		}
+	]
+} 

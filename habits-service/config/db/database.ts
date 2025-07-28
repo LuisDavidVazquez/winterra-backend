@@ -4,6 +4,7 @@ import { HabitModel } from '../../src/infrastructure/models/HabitModel';
 import { UserHabitModel } from '../../src/infrastructure/models/UserHabitModel';
 import { StudySessionModel } from '../../src/infrastructure/models/StudySessionModel';
 import { SleepSessionModel } from '../../src/infrastructure/models/SleepSessionModel';
+import { HabitDuelModel } from '../../src/infrastructure/models/HabitDuelModel';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -17,7 +18,7 @@ export const AppDataSource = new DataSource({
     rejectUnauthorized: false,
   },
   logging: process.env.NODE_ENV === 'development',
-  entities: [HabitCategoryModel, HabitModel, UserHabitModel, StudySessionModel, SleepSessionModel],
+  entities: [HabitCategoryModel, HabitModel, UserHabitModel, StudySessionModel, SleepSessionModel, HabitDuelModel],
   subscribers: [],
   migrations: [],
 });

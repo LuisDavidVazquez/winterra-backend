@@ -7,5 +7,6 @@ const router = Router();
 router.post('/assign', (req, res) => userMissionController.assignMission(req, res));
 router.put('/:userMissionId/progress', (req, res) => userMissionController.updateProgress(req, res));
 router.get('/user/:userHabitsId', (req, res) => userMissionController.getUserMissions(req, res));
+router.delete('/user/:userHabitsId', (req, res) => userMissionController.deleteUserMissionsByUserHabitsId(req, res));
 
 export default router; 

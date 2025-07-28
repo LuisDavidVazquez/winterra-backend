@@ -7,10 +7,10 @@ export class SleepQuality {
   }
 
   private validate(quality: string): void {
-    const validQualities = ['buena', 'media', 'mala'];
+    const validQualities = ['excelente', 'muy buena', 'buena', 'regular', 'mala'];
     
     if (!validQualities.includes(quality.toLowerCase())) {
-      throw new Error('Sleep quality must be one of: buena, media, mala');
+      throw new Error('Sleep quality must be one of: excelente, muy buena, buena, regular, mala');
     }
   }
 

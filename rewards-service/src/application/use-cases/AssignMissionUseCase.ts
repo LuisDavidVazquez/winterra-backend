@@ -31,8 +31,7 @@ export class AssignMissionUseCase {
     const userMission = new UserMissionEntity(
       userMissionId,
       data.userHabitsId,
-      data.missionId,
-      data.objective
+      data.missionId
     );
 
     const savedUserMission = await this.userMissionRepository.save(userMission);
@@ -43,10 +42,9 @@ export class AssignMissionUseCase {
       missionId: savedUserMission.getMissionId(),
       status: savedUserMission.getStatus(),
       progress: savedUserMission.getProgress(),
-      objective: savedUserMission.getObjective(),
       assignedAt: savedUserMission.getAssignedAt(),
       completedAt: savedUserMission.getCompletedAt(),
-      progressPercentage: savedUserMission.getProgressPercentage()
+      progressPercentage: savedUserMission.getProgressPercentage(mission.getObjective())
     };
   }
 } 

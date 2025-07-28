@@ -291,6 +291,198 @@
 			]
 		},
 		{
+			"name": "Habit Duels",
+			"item": [
+				{
+					"name": "Create Habit Duel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userHabitId\": \"{{user_habit_id}}\",\n  \"challengerId\": \"{{challenger_id}}\",\n  \"opponentId\": \"{{opponent_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/habits/habit-duels",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"habit-duels"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Habit Duels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/habits/habit-duels",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"habit-duels"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Habit Duel by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/habits/habit-duels/{{duel_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"habit-duels",
+								"{{duel_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Accept Habit Duel",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"duelId\": \"{{duel_id}}\",\n  \"opponentId\": \"{{opponent_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/habits/habit-duels/accept",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"habit-duels",
+								"accept"
+							]
+						}
+					}
+				},
+				{
+					"name": "Reject Habit Duel",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"duelId\": \"{{duel_id}}\",\n  \"opponentId\": \"{{opponent_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/habits/habit-duels/reject",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"habit-duels",
+								"reject"
+							]
+						}
+					}
+				},
+				{
+					"name": "Complete Habit Duel",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"duelId\": \"{{duel_id}}\",\n  \"userId\": \"{{user_id}}\",\n  \"streakChallenger\": 15,\n  \"streakOpponent\": 12\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/habits/habit-duels/complete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"habit-duels",
+								"complete"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Duels by User ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/habits/habit-duels/user/{{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"habit-duels",
+								"user",
+								"{{user_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Habit Duel",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/habits/habit-duels/{{duel_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"habits",
+								"habit-duels",
+								"{{duel_id}}"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
 			"name": "Health Check",
 			"item": [
 				{
@@ -328,6 +520,18 @@
 		{
 			"key": "user_habit_id",
 			"value": "user-habit-uuid-here"
+		},
+		{
+			"key": "duel_id",
+			"value": "duel-uuid-here"
+		},
+		{
+			"key": "challenger_id",
+			"value": "challenger-uuid-here"
+		},
+		{
+			"key": "opponent_id",
+			"value": "opponent-uuid-here"
 		}
 	]
 } 

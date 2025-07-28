@@ -18,9 +18,6 @@ export class UserMissionModel {
   @Column('int')
   progress: number;
 
-  @Column('int')
-  objective: number;
-
   @CreateDateColumn()
   assigned_at: Date;
 
@@ -34,7 +31,6 @@ export class UserMissionModel {
     model.mission_id = userMission.getMissionId();
     model.status = userMission.getStatus();
     model.progress = userMission.getProgress();
-    model.objective = userMission.getObjective();
     model.assigned_at = userMission.getAssignedAt();
     model.completed_at = userMission.getCompletedAt();
     return model;
@@ -45,7 +41,6 @@ export class UserMissionModel {
       this.id,
       this.user_habits_id,
       this.mission_id,
-      this.objective,
       this.status as UserMissionStatus,
       this.progress,
       this.assigned_at,

@@ -10,6 +10,7 @@ import { CreateStudySessionController } from '../controllers/CreateStudySessionC
 import { GetStudySessionsByUserHabitController } from '../controllers/GetStudySessionsByUserHabitController';
 import { CreateSleepSessionController } from '../controllers/CreateSleepSessionController';
 import { GetSleepSessionsByUserHabitController } from '../controllers/GetSleepSessionsByUserHabitController';
+import { HabitDuelController } from '../controllers/HabitDuelController';
 
 // Use Cases
 import { CreateHabitUseCase } from '../../../application/use-cases/CreateHabitUseCase';
@@ -23,6 +24,14 @@ import { CreateStudySessionUseCase } from '../../../application/use-cases/Create
 import { GetStudySessionsByUserHabitUseCase } from '../../../application/use-cases/GetStudySessionsByUserHabitUseCase';
 import { CreateSleepSessionUseCase } from '../../../application/use-cases/CreateSleepSessionUseCase';
 import { GetSleepSessionsByUserHabitUseCase } from '../../../application/use-cases/GetSleepSessionsByUserHabitUseCase';
+import { CreateHabitDuelUseCase } from '../../../application/use-cases/CreateHabitDuelUseCase';
+import { GetAllHabitDuelsUseCase } from '../../../application/use-cases/GetAllHabitDuelsUseCase';
+import { GetHabitDuelByIdUseCase } from '../../../application/use-cases/GetHabitDuelByIdUseCase';
+import { AcceptHabitDuelUseCase } from '../../../application/use-cases/AcceptHabitDuelUseCase';
+import { RejectHabitDuelUseCase } from '../../../application/use-cases/RejectHabitDuelUseCase';
+import { CompleteHabitDuelUseCase } from '../../../application/use-cases/CompleteHabitDuelUseCase';
+import { GetDuelsByUserIdUseCase } from '../../../application/use-cases/GetDuelsByUserIdUseCase';
+import { DeleteHabitDuelUseCase } from '../../../application/use-cases/DeleteHabitDuelUseCase';
 
 // Repositories
 import { PostgreSQLHabitRepository } from '../../repositories/PostgreSQL/HabitRepository';
@@ -30,6 +39,7 @@ import { PostgreSQLHabitCategoryRepository } from '../../repositories/PostgreSQL
 import { PostgreSQLUserHabitRepository } from '../../repositories/PostgreSQL/UserHabitRepository';
 import { PostgreSQLStudySessionRepository } from '../../repositories/PostgreSQL/StudySessionRepository';
 import { PostgreSQLSleepSessionRepository } from '../../repositories/PostgreSQL/SleepSessionRepository';
+import { PostgreSQLHabitDuelRepository } from '../../repositories/PostgreSQL/HabitDuelRepository';
 
 // Services
 import { UUIDService } from '../../services/UUIDService';
@@ -40,6 +50,7 @@ export const habitCategoryRepository = new PostgreSQLHabitCategoryRepository();
 export const userHabitRepository = new PostgreSQLUserHabitRepository();
 export const studySessionRepository = new PostgreSQLStudySessionRepository();
 export const sleepSessionRepository = new PostgreSQLSleepSessionRepository();
+export const habitDuelRepository = new PostgreSQLHabitDuelRepository();
 
 // Services
 export const uuidService = new UUIDService();
@@ -57,6 +68,16 @@ export const getStudySessionsByUserHabitUseCase = new GetStudySessionsByUserHabi
 export const createSleepSessionUseCase = new CreateSleepSessionUseCase(sleepSessionRepository, uuidService);
 export const getSleepSessionsByUserHabitUseCase = new GetSleepSessionsByUserHabitUseCase(sleepSessionRepository);
 
+// Habit Duel Use Cases
+export const createHabitDuelUseCase = new CreateHabitDuelUseCase(habitDuelRepository, userHabitRepository, uuidService);
+export const getAllHabitDuelsUseCase = new GetAllHabitDuelsUseCase(habitDuelRepository);
+export const getHabitDuelByIdUseCase = new GetHabitDuelByIdUseCase(habitDuelRepository);
+export const acceptHabitDuelUseCase = new AcceptHabitDuelUseCase(habitDuelRepository);
+export const rejectHabitDuelUseCase = new RejectHabitDuelUseCase(habitDuelRepository);
+export const completeHabitDuelUseCase = new CompleteHabitDuelUseCase(habitDuelRepository);
+export const getDuelsByUserIdUseCase = new GetDuelsByUserIdUseCase(habitDuelRepository);
+export const deleteHabitDuelUseCase = new DeleteHabitDuelUseCase(habitDuelRepository);
+
 // Controllers
 export const createHabitController = new CreateHabitController(createHabitUseCase);
 export const getAllHabitsController = new GetAllHabitsController(getAllHabitsUseCase);
@@ -68,4 +89,16 @@ export const updateUserHabitController = new UpdateUserHabitController(updateUse
 export const createStudySessionController = new CreateStudySessionController(createStudySessionUseCase);
 export const getStudySessionsByUserHabitController = new GetStudySessionsByUserHabitController(getStudySessionsByUserHabitUseCase);
 export const createSleepSessionController = new CreateSleepSessionController(createSleepSessionUseCase);
-export const getSleepSessionsByUserHabitController = new GetSleepSessionsByUserHabitController(getSleepSessionsByUserHabitUseCase); 
+export const getSleepSessionsByUserHabitController = new GetSleepSessionsByUserHabitController(getSleepSessionsByUserHabitUseCase);
+
+// Habit Duel Controller
+export const habitDuelController = new HabitDuelController(
+  createHabitDuelUseCase,
+  getAllHabitDuelsUseCase,
+  getHabitDuelByIdUseCase,
+  acceptHabitDuelUseCase,
+  rejectHabitDuelUseCase,
+  completeHabitDuelUseCase,
+  getDuelsByUserIdUseCase,
+  deleteHabitDuelUseCase
+); 
