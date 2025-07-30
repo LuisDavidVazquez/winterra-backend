@@ -31,7 +31,7 @@ services:
       context: ./avatar-service
       dockerfile: dockerfile
     ports:
-      - "${AVATAR_SERVICE_PORT:-3001}:3000"
+      - "3001:3000"
     restart: unless-stopped
     networks:
       - winterra-network
@@ -44,6 +44,75 @@ services:
       - DB_USERNAME=${DB_USERNAME:-postgres}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${AVATAR_DB_DATABASE:-avatar_service}
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
+
+  avatar-service-2:
+    build:
+      context: ./avatar-service
+      dockerfile: dockerfile
+    ports:
+      - "3006:3000"
+    restart: unless-stopped
+    networks:
+      - winterra-network
+    environment:
+      - NODE_ENV=${AVATAR_SERVICE_NODE_ENV:-development}
+      - PORT=3000
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - DB_HOST=${DB_HOST:-localhost}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USERNAME=${DB_USERNAME:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${AVATAR_DB_DATABASE:-avatar_service}
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
+
+  habits-service:
+    build:
+      context: ./habits-service
+      dockerfile: dockerfile
+    ports:
+      - "3003:3000"
+    restart: unless-stopped
+    networks:
+      - winterra-network
+    environment:
+      - NODE_ENV=${HABITS_SERVICE_NODE_ENV:-development}
+      - PORT=3000
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - DB_HOST=${DB_HOST:-localhost}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USERNAME=${DB_USERNAME:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${HABITS_DB_DATABASE:-habits_service}
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
+
+  habits-service-2:
+    build:
+      context: ./habits-service
+      dockerfile: dockerfile
+    ports:
+      - "3007:3000"
+    restart: unless-stopped
+    networks:
+      - winterra-network
+    environment:
+      - NODE_ENV=${HABITS_SERVICE_NODE_ENV:-development}
+      - PORT=3000
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - DB_HOST=${DB_HOST:-localhost}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USERNAME=${DB_USERNAME:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${HABITS_DB_DATABASE:-habits_service}
     depends_on:
       - rabbitmq
     env_file:
@@ -67,29 +136,6 @@ services:
       - DB_USERNAME=${DB_USERNAME:-postgres}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${COMMUNITY_DB_DATABASE:-community_service}
-    depends_on:
-      - rabbitmq
-    env_file:
-      - .env
-
-  habits-service:
-    build:
-      context: ./habits-service
-      dockerfile: dockerfile
-    ports:
-      - "${HABITS_SERVICE_PORT:-3003}:3000"
-    restart: unless-stopped
-    networks:
-      - winterra-network
-    environment:
-      - NODE_ENV=${HABITS_SERVICE_NODE_ENV:-development}
-      - PORT=3000
-      - RABBITMQ_URL=${RABBITMQ_URL}
-      - DB_HOST=${DB_HOST:-localhost}
-      - DB_PORT=${DB_PORT:-5432}
-      - DB_USERNAME=${DB_USERNAME:-postgres}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_DATABASE=${HABITS_DB_DATABASE:-habits_service}
     depends_on:
       - rabbitmq
     env_file:

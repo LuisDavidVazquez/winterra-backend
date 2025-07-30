@@ -104,6 +104,18 @@ export class FirebaseAuthUseCase {
 
     const token = this.jwtService.generateToken(tokenPayload);
 
+    // Generar token personalizado de Firebase
+    const firebaseTokenPayload = {
+      userId: user.getId(),
+      plan: user.getPlan(),
+      email: user.getEmail().getValue()
+    };
+
+    const firebaseToken = await this.firebaseService.createCustomToken(
+      user.getFirebaseUid() || '',
+      firebaseTokenPayload
+    );
+
     // Construir respuesta
     const response: FirebaseAuthResponseDTO = {
       success: true,
@@ -118,6 +130,7 @@ export class FirebaseAuthUseCase {
           lastSessionAt: user.getLastSessionAt()?.toISOString() || null
         },
         token,
+        firebaseToken,
         expiresIn: process.env.JWT_EXPIRES_IN || '24h',
         isNew: isNewUser
       },
