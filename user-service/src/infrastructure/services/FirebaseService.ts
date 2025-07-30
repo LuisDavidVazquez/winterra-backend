@@ -85,4 +85,13 @@ export class FirebaseService implements IFirebaseService {
       throw new Error('Firebase user not found');
     }
   }
+
+  async createCustomToken(uid: string, additionalClaims?: object): Promise<string> {
+    try {
+      const customToken = await this.app.auth().createCustomToken(uid, additionalClaims);
+      return customToken;
+    } catch (error) {
+      throw new Error('Failed to create Firebase custom token');
+    }
+  }
 } 
